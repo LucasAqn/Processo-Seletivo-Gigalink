@@ -1,0 +1,30 @@
+{
+  "name": "nodejs-salesmanagementsystem",
+  "version": "1.0.0",
+  "description": "Sistema de Gerenciamento de Vendas",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LucasAqn/Processo-Seletivo-Gigalink.git"
+  },
+  "author": "Lucas Aquino",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/LucasAqn/Processo-Seletivo-Gigalink/issues"
+  },
+  "homepage": "https://github.com/LucasAqn/Processo-Seletivo-Gigalink#readme",
+  "dependencies": {
+    "body-parser": "^1.20.0",
+    "dotenv": "^16.0.2",
+    "express": "^4.18.1",
+    "handlebars": "^4.7.7",
+    "mysql": "^2.18.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.19"
+  }
+}
