@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generate Request Screen</title>
+    <link rel="stylesheet" type="text/css" href="/style.css">   
+   
+</head>
+
+<body>
+    
+    <div class="header">
+        
+                <h1>Gerar Pedido</h1>
+        
+    </div>
+    <form action = "/addRequest" method="POST">
+        <div>
+            <input type = "float" name="ShippingFee" placeholder="Digite o valor do frete">
+            <br>
+            <input type = "float" name="Discount" placeholder="Digite o valor do desconto">
+            <br>
+            <form>
+                <select name = 'SupplierID'>
+                    {{#each suppliersList}}
+                     <option> {{nome}}</option>
+                     {{/each}}
+                </select>
+            </form>
+            <button type="submit" name = "confirmRegistry">Finalizar Cadastro</button>               
+
+        </div>
+    </form>
+
+    <p>{{feedback}}<br></p>
+    <a href="/">Voltar</a>
+   
+</body>
+</html> 

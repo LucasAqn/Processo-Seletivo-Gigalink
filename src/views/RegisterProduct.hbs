@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register Product Screen</title>
+    <link rel="stylesheet" type="text/css" href="/style.css">   
+   
+</head>
+
+<body>
+    
+    <div class="header">
+        
+                <h1>Registrar Novo Produto</h1>
+        
+    </div>
+    <form action = "/addProduct" method="POST">
+        <div>
+            <input type = "text" name="ProductName" placeholder="Digite o nome do Produto" required>
+            <br>
+            <input type = "text" name="ProductDescription" placeholder="Digite a descrição do Produto" required>
+            <br>
+            <form>
+                <select name = 'SupplierID'>
+                    {{#each suppliersList}}
+                     <option> {{nome}}</option>
+                     {{/each}}
+                </select>
+            </form>
+            <button type="submit" name = "confirmRegistry">Finalizar Cadastro</button>               
+
+        </div>
+    </form>
+
+    <p>{{feedback}}<br></p>
+    <a href="/">Voltar</a>
+   
+</body>
+</html> 

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register Supplier Screen</title>
+    <link rel="stylesheet" type="text/css" href="/style.css">   
+   
+</head>
+
+<body>
+    
+    <div class="header">
+        
+                <h1>Registrar Novo Fornecedor</h1>
+        
+    </div>
+    <form action = "/addSupplier" method="POST">
+        <div>
+            <input type = "text" name="SupplierName" placeholder="Digite o nome do Fornecedor" required>
+            <br>
+             <input type = "text" name="SupplierDescription" placeholder="Digite a Descrição do Fornecedor" required>
+            <br>
+             <input type = "text" name="SupplierCity" placeholder="Digite a cidade da Transportadora" required>
+            <br>
+             <input type = "text" name="SupplierAddress" placeholder="Digite o endereço da Transportadora" required>
+            <br>
+             <input type = "text" name="SupplierNeighborhood" placeholder="Digite o bairro da Transportadora" required>
+            <br>
+             <input type = "text" name="SupplierNumber" placeholder="Digite o número da Transportadora" required>
+            <br>
+
+
+            <button type="submit" name = "confirmRegistry">Finalizar Cadastro</button>               
+
+        </div>
+    </form>
+
+    <p>{{feedback}}<br></p>
+    <a href="/">Voltar</a>
+   
+</body>
+</html> 

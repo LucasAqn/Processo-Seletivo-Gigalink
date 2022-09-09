@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register Shipping Company Screen</title>
+    <link rel="stylesheet" type="text/css" href="/style.css">   
+   
+</head>
+
+<body>
+    
+    <div class="header">
+        
+                <h1>Registrar Nova Transportadora</h1>
+        
+    </div>
+    <form action = "/addShippingCompany" method="POST">
+        <div>
+            <input type = "text" name="ShippingCompanyName" placeholder="Digite o nome da Transportadora" required>
+            <br>
+            <button type="submit" name = "confirmRegistry">Finalizar Cadastro</button>               
+
+        </div>
+    </form>
+
+    <p>{{feedback}}<br></p>
+    <a href="/">Voltar</a>
+   
+</body>
+</html> 

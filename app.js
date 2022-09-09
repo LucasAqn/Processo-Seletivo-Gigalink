@@ -24,14 +24,56 @@ db.connect(err => {
     console.log('Conectado ao Banco de Dados!')
 });
 
-const publicDirectory = path.join(__dirname, './public');
+const publicDirectory = path.join(__dirname, "./src/public");
 app.use(express.static(publicDirectory));
-
+const viewsPath = path.join(__dirname, "./src/views/");
+app.set('views', viewsPath);
 app.set('view engine', 'hbs');
 
-app.post('/RegisterShippingCompany',(req, res) =>{
 
-    db.query(`INSERT INTO transportadora (nome) VALUES ('${req.body.nomeTransportadora}')`, (error, results) => {
+app.get("/", (req, res) => {       
+    res.render('index')
+    
+});
+
+app.get('/RegisterProduct',(req, res) =>{
+
+    db.query(`SELECT id, nome FROM fornecedor`, (error, results) => {
+        if(error){
+        console.log(error);
+        }
+        else{
+            return res.render('RegisterProduct', {
+                suppliersList: results
+            });
+        }
+        
+    })
+}); 
+
+app.post('/addProduct',(req, res) =>{
+
+    db.query(`INSERT INTO produto (id_fornecedor, nome, descricao) VALUES ('${req.body.SupplierID}','${req.body.ProductName}','${req.body.ProductDescription}')`, (error, results) => {
+        if(error){
+        console.log(error);
+        }
+        else{
+            return res.render('RegisterProduct', {
+                feedback: 'Produto Cadastrado com sucesso!'
+            });
+        }
+        
+    })
+}); 
+
+app.get('/RegisterShippingCompany',(req, res) =>{
+    res.render('RegisterShippingCompany')
+     
+}); 
+
+app.post('/addShippingCompany',(req, res) =>{
+
+    db.query(`INSERT INTO transportadora (nome) VALUES ('${req.body.ShippingCompanyName}')`, (error, results) => {
         if(error){
         console.log(error);
         }
@@ -44,20 +86,20 @@ app.post('/RegisterShippingCompany',(req, res) =>{
     })
 }); 
 
-app.post('/VisualizeRequests', (req,res) =>{
+app.get('/VisualizeRequests', (req,res) =>{
     db.query('SELECT * FROM pedido', (error, results) => {
         if(error){
             console.log(error);
         }
         else{
             return res.render('VisualizeRequests', {
-                feedback: 'lista de pedidos'
+                requestsList: results
                 });
         }
     })
 });
 
-app.get('/VisualizeRequests/RequestDetails', (req,res) =>{
+app.get('/requestDetails', (req,res) =>{
     //consultar nome da trasnsportadora associada
     db.query('SELECT nome FROM transportadora WHERE id = ?', ['id_transportadora'], (error, results) => {
         if(error){
