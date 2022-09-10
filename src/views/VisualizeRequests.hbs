@@ -14,16 +14,70 @@
         <h1>Visualizar Pedidos</h1>
         
     </div>
+    
+    <div>
+        <table id="requestTable">
+            <thead>
+                <tr>
+                    <td>ID</td>
+                    <td>Data</td>
+                    <td>Nota Fiscal</td>
 
-    {{#if 
-    <form action = "/requestDetails" method="GET">
-        <div>
-            {{#each requestsList}}
-                <p>{{notaFiscal}}, {{datahora}},{{valorTotal}} <a href:"/requestDetails/{{id}} ">Detalhes</a></p>
-                {{/each}}             
-
-        </div>
-    </form>
+                </tr>
+                {{#each requestsList}}
+                <tr>
+                    <td>{{id}}</td>
+                    <td>{{datahora}}</td>
+                    <td>{{notaFiscal}}</td>
+                    <td>{{valorTotal}}</td>
+                    <td><button type="button" onclick="loadRequestDetails(${{id}})">Detalhes</button></td>
+                </tr>
+                {{/each}}
+            </thead>       
+        </table> 
+        <br>   
+        <div id="requestDetailsBox" >
+            <table id="requestDetailTable">
+                <thead>
+                    <tr>
+                        <td>ID</td>
+                        <td>Data</td>
+                        <td>Nota Fiscal</td>
+                        <td>Transportadora</td>
+                        <td>Frete</td>
+                        <td>Desconto</td>     
+                        <td>Valor Total</td>
+                    </tr>
+                    <tr>
+                    <td>{{pedido.id}}</td>
+                    <td>{{pedido.datahora}}</td>
+                    <td>{{pedido.notaFiscal}}</td>
+                    <td>{{transportadora.nome}}</td>
+                    <td>{{pedido.valorFrete}}</td>
+                    <td>{{pedido.desconto}}</td>
+                    <td>{{pedido.valorTotal}}</td>
+                </tr>
+                </thead>  
+            </table>
+            <br>
+            <table id="requestProductsTable">
+                <thead>
+                    <tr>
+                        <td>Produto</td>
+                        <td>Quantidade</td>
+                        <td>Valor Unitário</td>
+                    </tr>
+                    {{#each productsList}}
+                <tr>
+                    <td>{{produto.nome}}</td>
+                    <td>{{item.quantidade}}</td>
+                    <td>{{item.valor}}</td>
+                </tr>
+                {{/each}}
+                </thead>  
+            </table>
+        </div>             
+    </div>  
    <a href="/">Voltar</a>
 </body>
 </html> 

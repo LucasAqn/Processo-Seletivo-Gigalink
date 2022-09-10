@@ -25,7 +25,6 @@ db.connect(err => {
 });
 
 const publicDirectory = path.join(__dirname, "./src/public");
-app.use(express.static(publicDirectory));
 const viewsPath = path.join(__dirname, "./src/views/");
 app.set('views', viewsPath);
 app.set('view engine', 'hbs');
@@ -100,7 +99,7 @@ app.post("/addRequest", (req, res)=>{
 });
 
 app.get('/VisualizeRequests', (req,res) =>{
-    db.query('SELECT datahora, notaFiscal, valorTotal, id_transportadora FROM pedido ORDER BY datahora', (error, results) => {
+    db.query('SELECT id, datahora, notaFiscal, valorTotal FROM pedido ORDER BY datahora', (error, results) => {
         if(error){
             console.log(error);
         }
@@ -114,22 +113,23 @@ app.get('/VisualizeRequests', (req,res) =>{
 
 app.get('/requestDetails', (req,res) =>{
 
-    db.query('SELECT nome FROM transportadora WHERE id = ?', [req.body.id_transportadora], (error, results) => {
+    db.query('SELECT pedido.id, pedido.datahora, pedido.notaFiscal, transportadora.nome, pedido.valorFrete, pedido.desconto, pedido.valorTotal  FROM pedido INNER JOIN transportadora ON pedido.id_transportadora = transportadora.id WHERE id = ?', [req.query.id], (error, results) => {
         if(error){
             console.log(error);
         }
         else{
-           let RegisterShippingCompanyName = results;
+           let requestDetails = results;
         }
     })
 
-    db.query('SELECT produto.nome, item.quantidade, item.valor FROM produto INNER JOIN item ON produto.id = item.id_produto INNER JOIN pedido ON item.id_pedido = pedido.id INNER JOIN transportadora ON pedido.id_transportadora = transportadora.id WHERE id_pedido= ?', [req.body.id_pedido], (error, results) => {
+    db.query('SELECT produto.nome, item.quantidade, item.valor FROM produto INNER JOIN item ON produto.id = item.id_produto INNER JOIN pedido ON item.id_pedido = pedido.id WHERE id_pedido= ?', [req.query.id_pedido], (error, results) => {
         if(error){
             console.log(error);
         }
         else{
             return res.render('VisualizeRequests', {
-                productDetails: results
+                productsList: results,
+                requestDetails: requestDetails  
                 });
         }
     })
@@ -165,7 +165,12 @@ app.post('/addProduct',(req, res) =>{
     })
 }); 
 
-app.post('/RegisterSupplier',(req, res) =>{
+app.get('/RegisterSupplier',(req, res) =>{
+    res.render('RegisterSupplier')
+});
+
+  
+app.post('/addSupplier',(req, res) =>{
 
     db.query('SELECT id FROM fornecedor WHERE nome = ?',[req.body.SupplierName], (error, results) => {
         if(error){

@@ -4,40 +4,74 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register Supplier Screen</title>
-    <link rel="stylesheet" type="text/css" href="/style.css">   
+    <link rel="stylesheet" type="text/css" href="../public/style.css">  
+    <script type="text/javascript" src="../controllers/RegisterSupllierController.js"></script> 
    
 </head>
 
-<body>
-    
-    <div class="header">
+<body> 
+    <div class="header">  
+        <h1>Registrar Novo Fornecedor</h1>
         
-                <h1>Registrar Novo Fornecedor</h1>
-        
-    </div>
+    </div>  
     <form action = "/addSupplier" method="POST">
-        <div>
-            <input type = "text" name="SupplierName" placeholder="Digite o nome do Fornecedor" required>
+        <div>           
+            <input type = "text" name="SupplierName" placeholder="Nome do Fornecedor" required>
+            <input type = "text" name="SupplierDescription" placeholder="Descrição" required>
             <br>
-             <input type = "text" name="SupplierDescription" placeholder="Digite a Descrição do Fornecedor" required>
-            <br>
-             <input type = "text" name="SupplierCity" placeholder="Digite a cidade da Transportadora" required>
-            <br>
-             <input type = "text" name="SupplierAddress" placeholder="Digite o endereço da Transportadora" required>
-            <br>
-             <input type = "text" name="SupplierNeighborhood" placeholder="Digite o bairro da Transportadora" required>
-            <br>
-             <input type = "text" name="SupplierNumber" placeholder="Digite o número da Transportadora" required>
-            <br>
+             <input type = "text" name="SupplierCity" placeholder="Cidade" required>  
+             <input type = "text" name="SupplierAddress" placeholder="Endereço" required>
+             <input type = "text" name="SupplierNeighborhood" placeholder="Bairro" required>
+             <input type = "text" name="SupplierNumber" placeholder="Número" required>
+            <br><br>
+            
+            <div id = "emailBox">
+                <form>
+                    <input type = "text" name="newEmail" placeholder="E-mail"> 
+                    <input type = "text" name="newEmailReference" placeholder="Referência">
+                    <button type="button" name = "addEmail" onclick="appendEmail(newEmail.value, newEmailReference.value)">+</button> 
+                </form>
+            </div>
 
+            <table name="emailTable" id="emailTable">
+                <thead>
+                    <tr>
+                        <td>E-mail</td>
+                        <td>Referência</td>
+                    </tr>
+                </thead>
+                
+            </table>
 
-            <button type="submit" name = "confirmRegistry">Finalizar Cadastro</button>               
+            <br><br>
+
+            <div id="telBox">
+                <form>
+                    <input type = "text" name="newTelDdd" placeholder="DDD" > 
+                    <input type = "text" name="newTelNumber" placeholder="Número" > 
+                    <input type = "text" name="newTelReference" placeholder="Referência" >
+                    <button type="button" onclick= "appendTel(newTelDdd.value, newTelNumber.value, newTelReference.value)" name = "addTel">+</button>
+                </form>
+            </div>
+             
+            <table name="telTable" id="telTable">
+                <thead>
+                    <tr>
+                       <td>DDD</td>
+                       <td>numero</td>
+                       <td>Referência</td>
+                    </tr>
+                </thead>
+                
+            </table>
+
+            <br>
+            <button type="submit" name = "confirmRegistry">Finalizar Cadastro</button>
+            <br><br>
+            <a href="/">Voltar</a>               
 
         </div>
     </form>
 
-    <p>{{feedback}}<br></p>
-    <a href="/">Voltar</a>
-   
 </body>
 </html> 
