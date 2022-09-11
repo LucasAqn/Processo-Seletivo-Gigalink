@@ -50,20 +50,18 @@ app.get("/GenerateRequest", (req, res) => {
 });
 
 app.get("/searchProduct",(req,res) => {
-    db.query(`SELECT * FROM produto WHERE nome LIKE '%?%'`,[req.body.productName])
+    db.query(`SELECT id FROM produto WHERE nome = ?`,[req.query.productName])
     if(error){
         console.log(error);
         }
         else{
-            return res.render("GenerateRequest",{
-                productInfo: results
-            });
+            return results
         }
 });
 
 app.post("/addRequest", (req, res)=>{
     
-            db.query(`INSERT INTO pedido (id_transportadora, datahora, notaFiscal, valorFrete, desconto, valorTotal) VALUES ('${req.body.shippingCompanyId}','${req.body.requestDate}','${req.body.requestInvoice}','${req.body.requestShippingFee}','${req.body.requestDiscount}','${req.body.requestAmount}')`, (error, results) => {
+            db.query(`INSERT INTO pedido (id_transportadora, datahora, notaFiscal, valorFrete, desconto, valorTotal) VALUES ('${req.body.shippingCompanyId}', '${req.body.requestDate}','${req.body.requestInvoice}','${req.body.requestShippingFee}','${req.body.requestDiscount}','${req.body.requestAmount}')`, (error, results) => {
                 if(error){
                 console.log(error);
                 }
@@ -75,10 +73,10 @@ app.post("/addRequest", (req, res)=>{
                         else{
                             
                             let requestId = results;
-                            let productList = req.body.productList;
+                            let productList = req.body.productTable;
                                 
-                            for( i = 0 ; i <= emailList.length;i++){
-                                db.query(`INSERT INTO item (id_produto, id_pedido, quantidade, valor) VALUES ('${req.body.productList[i]}','${req.body.requestId}','${req.body.productList[i].quantity}','${req.body.productList[i].price}')`, (error, results) => {
+                            for( i = 0 ; i <= productList.rows.length;i++){
+                                db.query(`INSERT INTO item (id_produto, id_pedido, quantidade, valor) VALUES ('${req.body.productList.rows[i].cells[0].innerHTML}','${req.body.requestId}','${req.body.productList.rows[i].cells[2].innerHTML}','${req.body.productList.rows[i].cells[3].innerHTML}')`, (error, results) => {
                                     if(error){
                                     console.log(error);
                                     }

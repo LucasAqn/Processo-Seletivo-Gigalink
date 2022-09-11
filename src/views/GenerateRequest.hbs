@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Generate Request Screen</title>
     <link rel="stylesheet" type="text/css" href="/style.css">   
+    <script type="text/javascript" src="../controllers/GenerateRequestController.js"></script> 
    
 </head>
 
@@ -16,19 +17,44 @@
         
     </div>
     <form action = "/addRequest" method="POST">
-        <div>
+        <div id="productBox">
+            <input type = "text" name="productName" placeholder="Digite o nome do produto">
+            <input type = "float" name="productQuantity" placeholder="Digite a quantidade deste item">
+            <input type = "float" name="productPrice" placeholder="Digite o valor unitário do produto">
+            <button type="button" onclick= "appendProduct(productName.value, productQuantity.value, productPrice.value)" name = "addProduct">+</button>
+        </div>
+          <table name="productTable" id="productTable">
+                <thead>
+                    <tr>
+                    <td>ID</td>
+                    <td>Nome</td>
+                    <td>Quantidade</td>
+                    <td>Preço Unitário</td>
+                    </tr>
+                </thead>
+                
+            </table>
+
+        <div id="requestInfoBox">
+             
             <input type = "float" name="ShippingFee" placeholder="Digite o valor do frete">
+            <br>
+            <input type = "text" name="Invoice" placeholder="Digite a nota fiscal">
             <br>
             <input type = "float" name="Discount" placeholder="Digite o valor do desconto">
             <br>
             <form>
-                <select name = 'SupplierID'>
-                    {{#each suppliersList}}
+                <select name = "ShippingCompanyId">
+                    {{#each shippingCompanyList}}
                      <option> {{nome}}</option>
                      {{/each}}
                 </select>
             </form>
-            <button type="submit" name = "confirmRegistry">Finalizar Cadastro</button>               
+            <div name="requestDate "id="requestDate"></div>
+            <p>Valor Total do pedido:</p>
+            <div name="requestAmount "id="requestAmount" data-value="0"></div>
+
+            <button type="submit" onclick="setRequestDate()" name = "confirmRegistry">Finalizar Cadastro</button>               
 
         </div>
     </form>
