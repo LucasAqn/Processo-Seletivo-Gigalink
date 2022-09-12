@@ -1,5 +1,5 @@
 function appendProduct(productName, productQuantity, productPrice){
-    let response = doGET("http://127.0.0.1:3000/searchProduct/" + productName)
+    let response = doGET("http://127.0.0.1:3000/searchProduct?productName=" + productName)
     let productId = JSON.parse(response);
 
     var table = document.getElementById("productTable");

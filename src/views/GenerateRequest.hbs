@@ -46,14 +46,14 @@
             <form>
                 <select name = "ShippingCompanyId">
                     {{#each shippingCompanyList}}
-                     <option> {{nome}}</option>
+                     <option value={{id}}> {{nome}}</option>
                      {{/each}}
                 </select>
             </form>
             <p>Valor Total do pedido:</p>
             <div name="requestAmount "id="requestAmount" data-value="0"></div>
 
-            <button type="submit" onclick="setRequestDate()" name = "confirmRegistry">Finalizar Cadastro</button>               
+            <button type="submit" name = "confirmRegistry">Finalizar Cadastro</button>               
 
         </div>
     </form>
