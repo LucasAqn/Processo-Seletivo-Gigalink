@@ -1,3 +1,4 @@
-.table{
-background-color: blue;
-}
+table{ 
+    background: rgb(164, 204, 237); 
+    border-color: black; 
+ }

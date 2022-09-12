@@ -1,11 +1,19 @@
 const express = require('express')
 const app = express();
+const cors = require('cors');
 const path = require('path');
 const mysql = require('mysql');
 const dotenv = require('dotenv');
 dotenv.config({ path: './.env'});
 app.use(express.urlencoded({extended: false}));
 app.use(express.json());
+
+app.use((req,res,next)=>{
+    res.header("Acess-Control-Allow-Origin", "*");
+    res.header("Acess-Control-Allow-Origin", 'GET, POST');
+    app.use(cors());
+    next();
+})
 
 const port = process.env.PORT;
 
@@ -61,7 +69,7 @@ app.get("/searchProduct",(req,res) => {
 
 app.post("/addRequest", (req, res)=>{
     
-            db.query(`INSERT INTO pedido (id_transportadora, datahora, notaFiscal, valorFrete, desconto, valorTotal) VALUES ('${req.body.shippingCompanyId}', '${req.body.requestDate}','${req.body.requestInvoice}','${req.body.requestShippingFee}','${req.body.requestDiscount}','${req.body.requestAmount}')`, (error, results) => {
+            db.query(`INSERT INTO pedido (id_transportadora, datahora, notaFiscal, valorFrete, desconto, valorTotal) VALUES ('${req.body.shippingCompanyId}', CURRENT_TIMESTAMP(),'${req.body.requestInvoice}','${req.body.requestShippingFee}','${req.body.requestDiscount}','${req.body.requestAmount}')`, (error, results) => {
                 if(error){
                 console.log(error);
                 }
@@ -76,7 +84,7 @@ app.post("/addRequest", (req, res)=>{
                             let productList = req.body.productTable;
                                 
                             for( i = 0 ; i <= productList.rows.length;i++){
-                                db.query(`INSERT INTO item (id_produto, id_pedido, quantidade, valor) VALUES ('${req.body.productList.rows[i].cells[0].innerHTML}','${req.body.requestId}','${req.body.productList.rows[i].cells[2].innerHTML}','${req.body.productList.rows[i].cells[3].innerHTML}')`, (error, results) => {
+                                db.query(`INSERT INTO item (id_produto, id_pedido, quantidade, valor) VALUES ('${req.body.productList.rows[i].cells[0]}','${req.body.requestId}','${req.body.productList.rows[i].cells[2]}','${req.body.productList.rows[i].cells[3]}')`, (error, results) => {
                                     if(error){
                                     console.log(error);
                                     }
@@ -111,7 +119,7 @@ app.get('/VisualizeRequests', (req,res) =>{
 
 app.get('/requestDetails', (req,res) =>{
 
-    db.query('SELECT pedido.id, pedido.datahora, pedido.notaFiscal, transportadora.nome, pedido.valorFrete, pedido.desconto, pedido.valorTotal  FROM pedido INNER JOIN transportadora ON pedido.id_transportadora = transportadora.id WHERE id = ?', [req.query.id], (error, results) => {
+    db.query('SELECT pedido.id, pedido.datahora, pedido.notaFiscal, transportadora.nome, pedido.valorFrete, pedido.desconto, pedido.valorTotal  FROM pedido INNER JOIN transportadora ON pedido.id_transportadora = transportadora.id WHERE pedido.id = ?', [req.query.id], (error, results) => {
         if(error){
             console.log(error);
         }
@@ -120,14 +128,14 @@ app.get('/requestDetails', (req,res) =>{
         }
     })
 
-    db.query('SELECT produto.nome, item.quantidade, item.valor FROM produto INNER JOIN item ON produto.id = item.id_produto INNER JOIN pedido ON item.id_pedido = pedido.id WHERE id_pedido= ?', [req.query.id_pedido], (error, results) => {
+    db.query('SELECT produto.nome, item.quantidade, item.valor FROM produto INNER JOIN item ON produto.id = item.id_produto INNER JOIN pedido ON item.id_pedido = pedido.id WHERE item.id_pedido= ?', [req.query.id], (error, results) => {
         if(error){
             console.log(error);
         }
         else{
             return res.render('VisualizeRequests', {
                 productsList: results,
-                requestDetails: requestDetails  
+                requestDetails  
                 });
         }
     })

@@ -29,16 +29,6 @@ function doGET(url){
     return connection.responseText
 } 
 
-function setRequestDate(){
-    let date = new Date();
-    let year = date.getFullYear();
-    let month = date.getMonth() + 1;
-    let day = date.getDate();
-    let hrs = date.getHours();
-    let min = date.getMinutes();
-    let sec = date.getSeconds();
-    document.getElementById("requestDate").innerHTML =  year + "/" + month + "/" + day  + "  " + hrs + ":" + min + ":" + sec;
-}
 
 function setAmount(){
 

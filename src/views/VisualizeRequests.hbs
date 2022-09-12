@@ -4,12 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Visualize Requests Screen</title>
-    <link rel="stylesheet" type="text/css" href="/style.css">  
-    <script type="text/javascript" src="../controllers/VisualizeRequestsController.js"></script>  
+     
    
 </head>
 
 <body>
+
+    <script>
+    function loadRequestDetails(){
+        let response = doGET("http://127.0.0.1:3000/requestDetails?id=1");
+        console.log("oi");
+        console.log(response);
+        
+    }
+
+    function doGET(url){
+        let connection = new XMLHttpRequest()
+        connection.open("GET",url,false)
+        connection.send()
+        return JSON.parse(connection.responseText)
+    }
+    </script>
     
     <div class="header">
         <h1>Visualizar Pedidos</h1>
@@ -17,12 +32,13 @@
     </div>
     
     <div>
-        <table id="requestTable">
+        <table id="requestTable" border="dotted">
             <thead>
                 <tr>
                     <td>ID</td>
                     <td>Data</td>
                     <td>Nota Fiscal</td>
+                    <td>Valor Total</td>
 
                 </tr>
                 {{#each requestsList}}
@@ -31,52 +47,57 @@
                     <td>{{datahora}}</td>
                     <td>{{notaFiscal}}</td>
                     <td>{{valorTotal}}</td>
-                    <td><button type="button" onclick="loadRequestDetails(${{id}})">Detalhes</button></td>
+                    <td><button type="button" onclick="loadRequestDetails()">Detalhes</button></td>
                 </tr>
                 {{/each}}
             </thead>       
         </table> 
         <br>   
+        
         <div id="requestDetailsBox" >
-            <table id="requestDetailTable">
-                <thead>
-                    <tr>
-                        <td>ID</td>
-                        <td>Data</td>
-                        <td>Nota Fiscal</td>
-                        <td>Transportadora</td>
-                        <td>Frete</td>
-                        <td>Desconto</td>     
-                        <td>Valor Total</td>
+            {{#if requestDetails}}
+                <table id="requestDetailTable">
+                    <thead>
+                        <tr>
+                            <td>ID</td>
+                            <td>Data</td>
+                            <td>Nota Fiscal</td>
+                            <td>Transportadora</td>
+                            <td>Frete</td>
+                            <td>Desconto</td>     
+                            <td>Valor Total</td>
+                        </tr>
+                        <tr>
+                        <td>{{pedido.id}}</td>
+                        <td>{{pedido.datahora}}</td>
+                        <td>{{pedido.notaFiscal}}</td>
+                        <td>{{transportadora.nome}}</td>
+                        <td>{{pedido.valorFrete}}</td>
+                        <td>{{pedido.desconto}}</td>
+                        <td>{{pedido.valorTotal}}</td>
                     </tr>
-                    <tr>
-                    <td>{{pedido.id}}</td>
-                    <td>{{pedido.datahora}}</td>
-                    <td>{{pedido.notaFiscal}}</td>
-                    <td>{{transportadora.nome}}</td>
-                    <td>{{pedido.valorFrete}}</td>
-                    <td>{{pedido.desconto}}</td>
-                    <td>{{pedido.valorTotal}}</td>
-                </tr>
-                </thead>  
-            </table>
+                    </thead>  
+                </table>
+            {{/if}}
             <br>
-            <table id="requestProductsTable">
-                <thead>
+            {{#if productsList}}
+                <table id="requestProductsTable">
+                    <thead>
+                        <tr>
+                            <td>Produto</td>
+                            <td>Quantidade</td>
+                            <td>Valor Unitário</td>
+                        </tr>
+                        {{#each productsList}}
                     <tr>
-                        <td>Produto</td>
-                        <td>Quantidade</td>
-                        <td>Valor Unitário</td>
+                        <td>{{produto.nome}}</td>
+                        <td>{{item.quantidade}}</td>
+                        <td>{{item.valor}}</td>
                     </tr>
-                    {{#each productsList}}
-                <tr>
-                    <td>{{produto.nome}}</td>
-                    <td>{{item.quantidade}}</td>
-                    <td>{{item.valor}}</td>
-                </tr>
-                {{/each}}
-                </thead>  
-            </table>
+                    {{/each}}
+                    </thead>  
+                </table>
+            {{/if}}
         </div>             
     </div>  
    <a href="/">Voltar</a>
