@@ -33,14 +33,16 @@ db.connect(err => {
     console.log('Conectado ao Banco de Dados!')
 });
 
-const publicDirectory = path.join(__dirname, "./src/public");
+
+const sourceDirectory = path.join(__dirname, "src");
 const viewsPath = path.join(__dirname, "./src/views/");
 app.set('views', viewsPath);
 app.set('view engine', 'hbs');
 
+app.use(express.static(sourceDirectory));
 
 app.get("/", (req, res) => {       
-    res.render('teste')
+    res.render('index')
     
 });
 
@@ -107,7 +109,7 @@ app.post("/addRequest", (req, res)=>{
 });
 
 app.get('/VisualizeRequests', (req,res) =>{
-    db.query('SELECT id, datahora, notaFiscal, valorTotal FROM pedido ORDER BY datahora', (error, results) => {
+    db.query('SELECT id, datahora, notaFiscal, valorTotal FROM pedido ORDER BY datahora DESC', (error, results) => {
         if(error){
             console.log(error);
         }
@@ -121,9 +123,8 @@ app.get('/VisualizeRequests', (req,res) =>{
 
 app.get('/requestDetails', (req,res) =>{
     let requestDetails = "";
-    console.log(req);
 
-    db.query('SELECT pedido.id, pedido.datahora, pedido.notaFiscal, transportadora.nome, pedido.valorFrete, pedido.desconto, pedido.valorTotal  FROM pedido INNER JOIN transportadora ON pedido.id_transportadora = transportadora.id WHERE pedido.id = 2', (error, results) => {
+    db.query('SELECT pedido.id, pedido.datahora, pedido.notaFiscal, transportadora.nome, pedido.valorFrete, pedido.desconto, pedido.valorTotal  FROM pedido INNER JOIN transportadora ON pedido.id_transportadora = transportadora.id WHERE pedido.id = ?',[req.query.Id], (error, results) => {
         if(error){
             console.log(error);
         }
@@ -133,12 +134,12 @@ app.get('/requestDetails', (req,res) =>{
         }
     })
 
-    db.query('SELECT produto.nome, item.quantidade, item.valor FROM produto INNER JOIN item ON produto.id = item.id_produto INNER JOIN pedido ON item.id_pedido = pedido.id WHERE item.id_pedido= 2', (error, results) => {
+    db.query('SELECT produto.nome, item.quantidade, item.valor FROM produto INNER JOIN item ON produto.id = item.id_produto INNER JOIN pedido ON item.id_pedido = pedido.id WHERE item.id_pedido= ?',[req.query.Id], (error, results) => {
         if(error){
             console.log(error);
         }
         else{
-            return res.render('VisualizeRequests', {
+            return res.json({
                 productsList: results,
                 requestDetails: requestDetails
                 

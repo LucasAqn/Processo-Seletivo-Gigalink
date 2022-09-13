@@ -11,19 +11,31 @@
 <body>
 
     <script>
-    function loadRequestDetails(){
-        let response = doGET("http://127.0.0.1:3000/requestDetails?id=xarope");
-        console.log("oi");
-        console.log(response);
-        
+   function loadRequestDetails(){
+        let response = doGET("http://127.0.0.1:3000/requestDetails?Id=2");
+        var data = JSON.parse(response)
+        alert(document.getElementById("detailsButton").getAttribute("value"));
+
+        /*/renderizar de novo o div do requestDetails
+        console.log(itens)
+        html = ""
+        itens["productsList"].forEach((product) => {
+            html += "<span>"+ product.nome + ',' + product.quantidade +"</span>"
+        })
+        itens["requestDetails"].forEach((pedido) => {
+            html += "<span>"+ pedido.id + ',' + pedido.notaFiscal +"</span>"
+        })
+
+        document.getElementById("pagina").innerHTML = html;
+        */
     }
 
     function doGET(url){
-        let connection = new XMLHttpRequest()
-        connection.open("GET",url,false)
-        connection.send()
-        return JSON.parse(connection.responseText)
-    }
+    let connection = new XMLHttpRequest()
+    connection.open("GET",url,false)
+    connection.send()
+    return connection.responseText
+}
     </script>
     
     <div class="header">
@@ -43,11 +55,12 @@
                 </tr>
                 {{#each requestsList}}
                 <tr>
-                    <td>{{id}}</td>
+                    <td id="requestId" value={{id}}>{{id}}</td>
                     <td>{{datahora}}</td>
                     <td>{{notaFiscal}}</td>
                     <td>{{valorTotal}}</td>
-                    <td><button type="button" onclick="loadRequestDetails()">Detalhes</button></td>
+                    <script>document.getElementById("detailsButton").setAttribute("value",requestId)</script>
+                    <td><button type="button" id="detailsButton" value={{id}} onclick="loadRequestDetails()">Detalhes{{id}}</button></td>
                 </tr>
                 {{/each}}
             </thead>       

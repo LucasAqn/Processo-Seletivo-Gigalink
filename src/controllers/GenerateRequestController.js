@@ -17,7 +17,7 @@ function appendProduct(productName, productQuantity, productPrice){
         newProductName.innerHTML = productName;
         newQuantity.innerHTML = productQuantity;
         newPrice.innerHTML = productPrice;
-        document.getElementById("requestAmount").innerHTML = document.getElementById("requestAmount").value + (productQuantity * productPrice);
+        updateAmount(productQuantity,productPrice);
     }
     
 }
@@ -30,6 +30,10 @@ function doGET(url){
 } 
 
 
-function setAmount(){
-
+function updateAmount(productQuantity,productPrice){
+    let currentAmount = document.getElementById("requestAmount").getAttribute("value");
+    let newAmount = parseFloat(currentAmount) + (parseFloat(productQuantity) * parseFloat(productPrice));
+    console.log(newAmount);
+    document.getElementById("requestAmount").setAttribute("value", newAmount);
+    document.getElementById("requestAmount").innerHTML = "Valor Total: " + newAmount;
 }
