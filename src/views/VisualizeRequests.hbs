@@ -4,47 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Visualize Requests Screen</title>
+    <link rel="stylesheet" type="text/css" href="../public/style.css">  
+    <script type="text/javascript" src="../controllers/VisualizeRequestsController.js"></script> 
      
    
 </head>
 
 <body>
-
-    <script>
-   function loadRequestDetails(){
-        let response = doGET("http://127.0.0.1:3000/requestDetails?Id=2");
-        var data = JSON.parse(response)
-        alert(document.getElementById("detailsButton").getAttribute("value"));
-
-        /*/renderizar de novo o div do requestDetails
-        console.log(itens)
-        html = ""
-        itens["productsList"].forEach((product) => {
-            html += "<span>"+ product.nome + ',' + product.quantidade +"</span>"
-        })
-        itens["requestDetails"].forEach((pedido) => {
-            html += "<span>"+ pedido.id + ',' + pedido.notaFiscal +"</span>"
-        })
-
-        document.getElementById("pagina").innerHTML = html;
-        */
-    }
-
-    function doGET(url){
-    let connection = new XMLHttpRequest()
-    connection.open("GET",url,false)
-    connection.send()
-    return connection.responseText
-}
-    </script>
-    
     <div class="header">
         <h1>Visualizar Pedidos</h1>
         
     </div>
     
     <div>
-        <table id="requestTable" border="dotted">
+        <table id="requestTable" style="display: block;">
             <thead>
                 <tr>
                     <td>ID</td>
@@ -54,65 +27,45 @@
 
                 </tr>
                 {{#each requestsList}}
+                <div>
                 <tr>
-                    <td id="requestId" value={{id}}>{{id}}</td>
+                    <td>{{id}}</td>
                     <td>{{datahora}}</td>
                     <td>{{notaFiscal}}</td>
-                    <td>{{valorTotal}}</td>
-                    <script>document.getElementById("detailsButton").setAttribute("value",requestId)</script>
-                    <td><button type="button" id="detailsButton" value={{id}} onclick="loadRequestDetails()">Detalhes{{id}}</button></td>
+                    <td>{{valorTotal}}</td>                
+                    <td><button type="button" id="requestId" onclick="loadRequestDetails({{id}})">Detalhes</button></td>
                 </tr>
                 {{/each}}
+                </div>
             </thead>       
         </table> 
-        <br>   
-        
-        <div id="requestDetailsBox" >
-            {{#if requestDetails}}
-                <table id="requestDetailTable">
-                    <thead>
-                        <tr>
-                            <td>ID</td>
-                            <td>Data</td>
-                            <td>Nota Fiscal</td>
-                            <td>Transportadora</td>
-                            <td>Frete</td>
-                            <td>Desconto</td>     
-                            <td>Valor Total</td>
-                        </tr>
-                        <tr>
-                        <td>{{pedido.id}}</td>
-                        <td>{{pedido.datahora}}</td>
-                        <td>{{pedido.notaFiscal}}</td>
-                        <td>{{transportadora.nome}}</td>
-                        <td>{{pedido.valorFrete}}</td>
-                        <td>{{pedido.desconto}}</td>
-                        <td>{{pedido.valorTotal}}</td>
-                    </tr>
-                    </thead>  
-                </table>
-            {{/if}}
-            <br>
-            {{#if productsList}}
-                <table id="requestProductsTable">
-                    <thead>
-                        <tr>
-                            <td>Produto</td>
-                            <td>Quantidade</td>
-                            <td>Valor Unitário</td>
-                        </tr>
-                        {{#each productsList}}
+        <br>    
+        <div id="requestDetailsBox" style="display: none;">
+            <table id="requestDetailsTable">
+                <thead>
                     <tr>
-                        <td>{{produto.nome}}</td>
-                        <td>{{item.quantidade}}</td>
-                        <td>{{item.valor}}</td>
+                        <td>ID</td>
+                        <td>Data</td>
+                        <td>Nota Fiscal</td>
+                        <td>Transportadora</td>
+                        <td>Frete</td>
+                        <td>Desconto</td>     
+                        <td>Valor Total</td>
                     </tr>
-                    {{/each}}
-                    </thead>  
-                </table>
-            {{/if}}
+                </thead>  
+            </table>
+            <br> 
+            <table id="requestProductsTable">
+                <thead>
+                    <tr>
+                        <td>Produto</td>
+                        <td>Quantidade</td>
+                        <td>Valor Unitário</td>
+                    </tr>
+                </thead>  
+            </table>
         </div>             
     </div>  
-   <a href="/">Voltar</a>
+   <a id="returnLink" href="/">Voltar</a>
 </body>
 </html> 

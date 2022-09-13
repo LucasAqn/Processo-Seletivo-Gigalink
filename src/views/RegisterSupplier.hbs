@@ -16,22 +16,23 @@
     </div>  
     <form action = "/addSupplier" method="POST">
         <div>           
-            <input type = "text" name="SupplierName" placeholder="Nome do Fornecedor" required>
-            <input type = "text" name="SupplierDescription" placeholder="Descrição" required>
+            <input type = "text" name="supplierName" placeholder="Nome do Fornecedor" required>
+            <input type = "text" name="supplierDescription" placeholder="Descrição" required>
             <br>
-             <input type = "text" name="SupplierCity" placeholder="Cidade" required>  
-             <input type = "text" name="SupplierAddress" placeholder="Endereço" required>
-             <input type = "text" name="SupplierNeighborhood" placeholder="Bairro" required>
-             <input type = "text" name="SupplierNumber" placeholder="Número" required>
+             <input type = "text" name="supplierCity" placeholder="Cidade" required>  
+             <input type = "text" name="supplierAddress" placeholder="Endereço" required>
+             <input type = "text" name="supplierNeighborhood" placeholder="Bairro" required>
+             <input type = "text" name="supplierNumber" placeholder="Número" required>
             <br><br>
             
             <div id = "emailBox">
                 <form>
-                    <input type = "text" name="newEmail" placeholder="E-mail"> 
-                    <input type = "text" name="newEmailReference" placeholder="Referência">
-                    <button type="button" name = "addEmail" onclick="appendEmail(newEmail.value, newEmailReference.value)">+</button> 
+                    <input type = "text" id="newEmail" placeholder="E-mail"> 
+                    <input type = "text" id="newEmailReference" placeholder="Referência">
+                    <button type="button" onclick="appendEmail(newEmail.value, newEmailReference.value)">+</button> 
                 </form>
             </div>
+            <br>
 
             <table name="emailTable" id="emailTable">
                 <thead>
@@ -47,13 +48,13 @@
 
             <div id="telBox">
                 <form>
-                    <input type = "text" name="newTelDdd" placeholder="DDD" > 
-                    <input type = "text" name="newTelNumber" placeholder="Número" > 
-                    <input type = "text" name="newTelReference" placeholder="Referência" >
+                    <input type = "text" id="newTelDdd" placeholder="DDD" > 
+                    <input type = "text" id="newTelNumber" placeholder="Número" > 
+                    <input type = "text" id="newTelReference" placeholder="Referência" >
                     <button type="button" onclick= "appendTel(newTelDdd.value, newTelNumber.value, newTelReference.value)" name = "addTel">+</button>
                 </form>
             </div>
-             
+            <br> 
             <table name="telTable" id="telTable">
                 <thead>
                     <tr>
@@ -66,7 +67,7 @@
             </table>
 
             <br>
-            <button type="submit" name = "confirmRegistry">Finalizar Cadastro</button>
+            <button type="submit">Finalizar Cadastro</button>
             <br><br>
             <a href="/">Voltar</a>               
 

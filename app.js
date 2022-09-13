@@ -109,13 +109,15 @@ app.post("/addRequest", (req, res)=>{
 });
 
 app.get('/VisualizeRequests', (req,res) =>{
+    let requestDetails = req.query.requestDetails; 
     db.query('SELECT id, datahora, notaFiscal, valorTotal FROM pedido ORDER BY datahora DESC', (error, results) => {
         if(error){
             console.log(error);
         }
         else{
             return res.render('VisualizeRequests', {
-                requestsList: results
+                requestsList: results,
+                requestDetails: requestDetails
                 });
         }
     })
@@ -141,7 +143,7 @@ app.get('/requestDetails', (req,res) =>{
         else{
             return res.json({
                 productsList: results,
-                requestDetails: requestDetails
+                requestDetails
                 
                 });
         }
@@ -184,8 +186,10 @@ app.get('/RegisterSupplier',(req, res) =>{
 
   
 app.post('/addSupplier',(req, res) =>{
+    console.log(req)
+   
 
-    db.query('SELECT id FROM fornecedor WHERE nome = ?',[req.body.SupplierName], (error, results) => {
+    db.query('SELECT id FROM fornecedor WHERE nome = ?',[req.body.supplierName], (error, results) => {
         if(error){
             console.log(error);
         }
@@ -196,12 +200,12 @@ app.post('/addSupplier',(req, res) =>{
             });
         }
         else {
-            db.query(`INSERT INTO fornecedor (nome, descricao, cidade, endereco, bairro, numero) VALUES ('${req.body.SupplierName}','${req.body.supplierDescription}','${req.body.suppliercity}','${req.body.supplierAddress}','${req.body.supplierNeighborhood}','${req.body.supplierNumber}')`, (error, results) => {
+            db.query(`INSERT INTO fornecedor (nome, descricao, cidade, endereco, bairro, numero) VALUES ('${req.body.supplierName}','${req.body.supplierDescription}','${req.body.supplierCity}','${req.body.supplierAddress}','${req.body.supplierNeighborhood}','${req.body.supplierNumber}')`, (error, results) => {
                 if(error){
                 console.log(error);
                 }
                 else{
-                    db.query('SELECT id FROM fornecedor WHERE nome = ?',[req.body.SupplierName], (error, results) => {
+                    db.query('SELECT id FROM fornecedor WHERE nome = ?',[req.body.supplierName], (error, results) => {
                         if(error){
                             console.log(error);
                         }
