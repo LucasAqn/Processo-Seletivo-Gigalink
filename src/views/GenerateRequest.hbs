@@ -18,7 +18,7 @@
     </div>
     <form action = "/addRequest" method="POST">
         <div id="productBox">
-            <input type = "text" id="productName" name="productName" placeholder="Digite o nome do produto">
+            <input type = "text"  name="productName" placeholder="Digite o nome do produto">
             <input type = "float" name="productQuantity" placeholder="Digite a quantidade deste item">
             <input type = "float" name="productPrice" placeholder="Digite o valor unitário do produto">
             <button type="button" onclick= "appendProduct(productName.value, productQuantity.value, productPrice.value)" name ="addProduct">+</button>
@@ -39,7 +39,7 @@
              
             <input type = "float" name="ShippingFee" placeholder="Digite o valor do frete">
             <br>
-            <input type = "text" name="Invoice" placeholder="Digite a nota fiscal">
+            <input type = "text" id="invoice" name="invoice" placeholder="Digite a nota fiscal">
             <br>
             <input type = "float" name="Discount" placeholder="Digite o valor do desconto">
             <br>
@@ -53,7 +53,7 @@
             <p>Valor Total do pedido:</p>
             <div name="requestAmount "id="requestAmount" value="0">Valor total: 0</div>
 
-            <button type="button" onclick="sendProductInfo()" name = "confirmRegistry">Finalizar Cadastro</button>               
+            <button type="submit" onclick="sendProductInfo()" name = "confirmRegistry">Finalizar Cadastro</button>               
 
         </div>
     </form>

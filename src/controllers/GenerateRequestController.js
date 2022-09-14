@@ -42,12 +42,15 @@ function sendProductInfo(){
     //e.preventDefault();
     
     table = document.getElementById("productTable");
+    let invoice = document.getElementById("invoice").value;
+
     productList = new Array((table.rows.length-1));
     createProductList(productList,table);
     
     console.log(productList);
 
     body = {
+        "requestInvoice": invoice,
         "productList": productList,
     }
     console.log(body);

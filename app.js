@@ -208,6 +208,43 @@ app.post('/addSupplier',(req, res) =>{
     });    
 });
 
+app.post('/addProductInfo',(req, res) =>{
+    console.log(req);
+    db.query('SELECT id FROM pedido WHERE notaFiscal = ?',[req.body.requestInvoice], (error, results) => {
+        if(error){
+            console.log(error);
+        }
+        else{
+            let requestId = results;
+            let productListLength = req.body.productList.length;
+
+            for(i = 0; i < productListLength; i++){
+                db.query('SELECT id FROM produto WHERE nome = ?',[req.body.productList[i][0]], (error, results) => {
+                    if(error){
+                        console.log(error);
+                    }
+                    else{    
+                        let productId = results;
+
+                        db.query(`INSERT INTO item (id_produto, id_pedido, quantidade, valor) VALUES ('${productId}','${requestId}','${req.body.productList[i][1]}','${req.body.productList[i][2]}')`, (error, results) => {
+                            if(error){
+                            console.log(error);
+                            }
+                            else{
+                                console.log('Novo item salvo com sucesso!')
+                                    
+                            }
+                        });
+                    }
+                });
+            }
+            return res.json({
+            feedback: 'Pedido cadastrado com sucesso!'                                    
+            });
+        }
+    }); 
+});
+
 app.post('/addSupplierInfo',(req, res) =>{
 console.log(req);
 console.log("LISTA DE TELEFONES:" + req.body.telList);

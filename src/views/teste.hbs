@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--<script type="text/javascript" src="/testeController.js"></script> -->
+    <title>Teste</title>
+</head>
+<body>
+    <div id="pagina"></div>
+    
+    <script>
+        function loadRequestDetails(){
+            let response = doGET("http://127.0.0.1:3000/requestDetails")
+            document.getElementById("pagina").innerHTML = response;
+            console.log(response)
+        }
+        function doGET(url){
+            let connection = new XMLHttpRequest()
+            connection.open("GET",url,false)
+            connection.send()
+            return connection.responseText
+        }
+    </script>
+
+    <button type="button" onclick="loadRequestDetails()">Detalhes</button>
+    <a href="/VisualizeRequests">Visualizar Pedidos</a>
+    <a href="/requestDetails">Detalhes do Pedido</a>
+    
+
+</body>
+</html>
