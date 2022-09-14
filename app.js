@@ -186,8 +186,6 @@ app.get('/RegisterSupplier',(req, res) =>{
 
   
 app.post('/addSupplier',(req, res) =>{
-    console.log(req)
-   
 
     db.query('SELECT id FROM fornecedor WHERE nome = ?',[req.body.supplierName], (error, results) => {
         if(error){
@@ -204,51 +202,55 @@ app.post('/addSupplier',(req, res) =>{
                 if(error){
                 console.log(error);
                 }
-                else{
-                    db.query('SELECT id FROM fornecedor WHERE nome = ?',[req.body.supplierName], (error, results) => {
-                        if(error){
-                            console.log(error);
-                        }
-                        else{
-                            
-                            let idSupplier = results;
-                            let emailList = req.body.emailList;
-                            let telList = req.body.telList;
-                                
-                            for( i = 0 ; i < emailList.length;i++){
-                                db.query(`INSERT INTO email (id_fornecedor, email, referencia) VALUES ('${idSupplier}','${req.body.emailList[i].email}','${req.body.emailList[i].referencia}')`, (error, results) => {
-                                    if(error){
-                                    console.log(error);
-                                    }
-                                    else{
-                                        console.log('Novo Email Salvo com sucesso!');
-                                        
-                                    }
-                                });
-                            }
 
-                            for(i = 0; i <= telList.length; i++){
-                                db.query(`INSERT INTO telefone (id_fornecedor, ddd, numerom referencia) VALUES ('${idSupplier}','${req.body.telList[i].ddd}','${req.body.telList[i].numero}','${req.body.telList[i].referencia}')`, (error, results) => {
-                                    if(error){
-                                    console.log(error);
-                                    }
-                                    else{
-                                        console.log('Novo Telefone Salvo com sucesso!')
-                                                                          
-                                        
-                                    }
-                                });  
-                            }
-                            
-                            return res.render('RegisterSupplier', {
-                            feedback: 'Fornecedor cadastrado com sucesso!'                                    
-                            });
-                        }
-                    });         
-                }
             });  
         }
     });    
+});
+
+app.post('/addSupplierInfo',(req, res) =>{
+console.log(req);
+console.log("LISTA DE TELEFONES:" + req.body.telList);
+    db.query('SELECT id FROM fornecedor WHERE nome = ?',[req.body.supplierName], (error, results) => {
+        if(error){
+            console.log(error);
+        }
+        else{
+            
+            let idSupplier = results;
+            let emailListLength = req.body.emailList.length;
+            let telListLength = req.body.telList.length;
+                
+            for( i = 0 ; i < emailListLength ;i++){
+                db.query(`INSERT INTO email (id_fornecedor, email, referencia) VALUES ('${idSupplier}','${req.body.emailList[i][0]}','${req.body.emailList[i][1]}')`, (error, results) => {
+                    if(error){
+                    console.log(error);
+                    }
+                    else{
+                        console.log('Novo Email Salvo com sucesso!');
+                        
+                    }
+                });
+            }
+
+            for(i = 0; i < telListLength; i++){
+                db.query(`INSERT INTO telefone (id_fornecedor, ddd, numero, referencia) VALUES ('${idSupplier}','${req.body.telList[i][0]}','${req.body.telList[i][1]}','${req.body.telList[i][2]}')`, (error, results) => {
+                    if(error){
+                    console.log(error);
+                    }
+                    else{
+                        console.log('Novo Telefone Salvo com sucesso!')
+                            
+                    }
+                });  
+            }
+            
+            return res.json({
+            feedback: 'Fornecedor cadastrado com sucesso!'                                    
+            });
+        }
+    }); 
+
 });
 
 app.get('/RegisterShippingCompany',(req, res) =>{

@@ -16,7 +16,7 @@
     </div>  
     <form action = "/addSupplier" method="POST">
         <div>           
-            <input type = "text" name="supplierName" placeholder="Nome do Fornecedor" required>
+            <input type = "text" id="supplierName" name="supplierName" placeholder="Nome do Fornecedor" required>
             <input type = "text" name="supplierDescription" placeholder="Descrição" required>
             <br>
              <input type = "text" name="supplierCity" placeholder="Cidade" required>  
@@ -67,7 +67,7 @@
             </table>
 
             <br>
-            <button type="submit">Finalizar Cadastro</button>
+            <button type="submit" onclick="sendSupplierInfo()">Finalizar Cadastro</button>
             <br><br>
             <a href="/">Voltar</a>               
 
