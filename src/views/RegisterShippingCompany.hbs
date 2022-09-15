@@ -8,13 +8,11 @@
    
 </head>
 
-<body>
-    
-    <div class="header">
-        
-                <h1>Registrar Nova Transportadora</h1>
-        
-    </div>
+<body>  
+    {{>header}}
+    <br>
+    <h1>Registrar Nova Transportadora</h1>
+    <br>
     <form action = "/addShippingCompany" method="POST">
         <div>
             <input type = "text" name="ShippingCompanyName" placeholder="Digite o nome da Transportadora" required>
@@ -27,5 +25,7 @@
     <p>{{feedback}}<br></p>
     <a href="/">Voltar</a>
    
+    <br>
+    {{>footer}}
 </body>
 </html> 

@@ -10,12 +10,10 @@
 </head>
 
 <body>
-    
-    <div class="header">
-        
-                <h1>Gerar Pedido</h1>
-        
-    </div>
+    {{>header}}
+    <br>
+    <h1>Gerar Novo Pedido</h1>
+    <br>
     <form>
         <div id="productBox">
             <input type = "text"  name="productName" placeholder="Nome do produto">
@@ -60,6 +58,9 @@
 
     <p>{{feedback}}<br></p>
     <a href="/">Voltar</a>
+
+    <br>
+    {{>footer}}
    
 </body>
 </html> 

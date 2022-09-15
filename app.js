@@ -4,6 +4,7 @@ const cors = require('cors');
 const path = require('path');
 const mysql = require('mysql');
 const dotenv = require('dotenv');
+const hbs = require('hbs');
 const { response } = require('express');
 const { Console } = require('console');
 
@@ -39,6 +40,7 @@ db.connect(err => {
 const sourceDirectory = path.join(__dirname, "src");
 const viewsPath = path.join(__dirname, "./src/views/");
 app.set('views', viewsPath);
+hbs.registerPartials(path.join(__dirname,"./src/views/partials/"), (err)=>{});
 app.set('view engine', 'hbs');
 
 app.use(express.static(sourceDirectory));

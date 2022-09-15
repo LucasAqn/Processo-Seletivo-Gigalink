@@ -7,8 +7,11 @@
     <title>Sistema de Gerenciamento de Vendas</title>
     <link rel="stylesheet" type="text/css" href="../public/style.css">  
 </head>
-<h1>Sistema de Gerenciamento de Vendas</h1>
 <body>
+    {{>header}}
+    
+    <br>
+    <div class="homepageMenu">
        <a href="/GenerateRequest"><li>Gerar novo Pedido</li></a>   
        <br>
        <a href="/VisualizeRequests"><li>Visualizar Pedidos</li></a>   
@@ -19,7 +22,8 @@
        <br>
        <a href="/RegisterShippingCompany"><li>Registrar Nova Transportadora</li></a>   
        <br>            
-                     
-    
+    </div>                
+    <br>
+    {{>footer}}
 </body>
 </html>

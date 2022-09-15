@@ -10,11 +10,10 @@
 
 <body>
     
-    <div class="header">
-        
-                <h1>Registrar Novo Produto</h1>
-        
-    </div>
+    {{>header}}
+    <br>     
+    <h1>Registrar Novo Produto</h1>
+    <br>
     <form action = "/addProduct" method="POST">
         <div>
             <input type = "text" name="ProductName" placeholder="Digite o nome do Produto" required>
@@ -36,5 +35,7 @@
     <p>{{feedback}}<br></p>
     <a href="/">Voltar</a>
    
+    <br>
+    {{>footer}}
 </body>
 </html> 

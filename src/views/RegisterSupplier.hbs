@@ -10,10 +10,10 @@
 </head>
 
 <body> 
-    <div class="header">  
-        <h1>Registrar Novo Fornecedor</h1>
-        
-    </div>  
+    {{>header}} 
+    <br>
+    <h1>Registrar Novo Fornecedor</h1>
+    <br>
     <form>
         <div>           
             <input type = "text" id="supplierName" name="supplierName" placeholder="Nome do Fornecedor" required>
@@ -73,5 +73,8 @@
 
         </div>
     </form>
+
+    <br>
+    {{>footer}}
 </body>
 </html> 
