@@ -56,17 +56,5 @@ function createProductsTable(product){
     newQuantity.innerHTML = product.quantidade;
     newPrice.innerHTML = product.valor;
 }
-    /*/renderizar de novo o div do requestDetails
-    console.log(itens)
-    html = ""
-    itens["productsList"].forEach((product) => {
-        html += "<span>"+ product.nome + ',' + product.quantidade +"</span>"
-    })
-    itens["requestDetails"].forEach((pedido) => {
-        html += "<span>"+ pedido.id + ',' + pedido.notaFiscal +"</span>"
-    })
-
-    document.getElementById("pagina").innerHTML = html;
-    */
 
 

@@ -62,7 +62,7 @@ function doPOST(url, body){
     request.setRequestHeader("Content-type", "application/json");
     request.send(JSON.stringify(body));
     request.onload= function (){
-        console.log(this.request.responseText);
+        return this.request.responseText;
     }
 
 }
@@ -102,5 +102,5 @@ function sendSupplierInfo(){
 
     let response = JSON.parse(doPOST("http://127.0.0.1:3000/addSupplier", body));
     let feedback = response["feedback"];
-    console.log(feedback);
+    alert(feedback);
 }

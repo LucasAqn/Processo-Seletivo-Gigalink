@@ -34,7 +34,7 @@ function doPOST(url, body){
     request.setRequestHeader("Content-type", "application/json");
     request.send(JSON.stringify(body));
     request.onload= function (){
-        console.log(this.request.responseText);
+        return this.request.responseText;
     }
 }
 
@@ -65,15 +65,8 @@ function sendRequestInfo(){
 
     let response = JSON.parse(doPOST("http://127.0.0.1:3000/addRequest", body));
     let feedback = response["feedback"];
-    console.log(feedback);
+    alert(feedback);
 }
-
-function doGET(url){
-    let connection = new XMLHttpRequest()
-    connection.open("GET",url,false)
-    connection.send()
-    return connection.responseText
-} 
 
 function updateAmount(productQuantity,productPrice){
     let currentAmount = document.getElementById("requestAmount").getAttribute("value");
