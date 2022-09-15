@@ -38,15 +38,18 @@ function doPOST(url, body){
     }
 }
 
-function sendProductInfo(){
+function sendRequestInfo(){
     //e.preventDefault();
     
     table = document.getElementById("productTable");
     let ShippingFee = document.getElementById("ShippingFee").value;
     let invoice = document.getElementById("invoice").value;
     let Discount = document.getElementById("Discount").value;
-    let requestAmount = document.getElementById("requestAmount").getAttribute("value");
     let shippingCompanyId = document.getElementById("shippingCompanyId").value;
+    let productAmount = document.getElementById("requestAmount").getAttribute("value");
+
+    let  requestAmount =  parseFloat(productAmount) + (parseFloat(ShippingFee) - parseFloat(Discount));
+    console.log(requestAmount)
 
     productList = new Array((table.rows.length-1));
     createProductList(productList,table);
@@ -75,7 +78,6 @@ function doGET(url){
 function updateAmount(productQuantity,productPrice){
     let currentAmount = document.getElementById("requestAmount").getAttribute("value");
     let newAmount = parseFloat(currentAmount) + (parseFloat(productQuantity) * parseFloat(productPrice));
-    console.log(newAmount);
     document.getElementById("requestAmount").setAttribute("value", newAmount);
-    document.getElementById("requestAmount").innerHTML = "Valor Total: " + newAmount;
+    document.getElementById("requestAmount").innerHTML = newAmount;
 }

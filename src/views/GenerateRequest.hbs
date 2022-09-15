@@ -18,9 +18,9 @@
     </div>
     <form>
         <div id="productBox">
-            <input type = "text"  name="productName" placeholder="Digite o nome do produto">
-            <input type = "float" name="productQuantity" placeholder="Digite a quantidade deste item">
-            <input type = "float" name="productPrice" placeholder="Digite o valor unitário do produto">
+            <input type = "text"  name="productName" placeholder="Nome do produto">
+            <input type = "float" name="productQuantity" placeholder="Quantidade deste produto">
+            <input type = "float" name="productPrice" placeholder="Valor unitário">
             <button type="button" onclick= "appendProduct(productName.value, productQuantity.value, productPrice.value)" name ="addProduct">+</button>
         </div>
         <br>
@@ -34,6 +34,9 @@
             </thead>
             
         </table>
+        <br>
+        <p>Valor Total em produtos:</p>
+        <div name="requestAmount "id="requestAmount" value="0">0</div>
         <br>
         <div id="requestInfoBox">
              
@@ -50,11 +53,8 @@
                      {{/each}}
                 </select>
             </form>
-            <p>Valor Total em produtos:</p>
-            <div name="requestAmount "id="requestAmount" value="0">0</div>
-
-            <button type="button" onclick="sendProductInfo()" name = "confirmRegistry">Finalizar Cadastro</button>               
-
+            <br>
+            <button type="button" onclick="sendRequestInfo()" name = "confirmRegistry">Finalizar Cadastro</button>
         </div>
     </form>
 

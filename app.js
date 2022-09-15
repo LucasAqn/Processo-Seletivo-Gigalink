@@ -81,18 +81,20 @@ app.post("/addRequest", (req, res)=>{
 
                     productListLength = req.body.productList.length;
 
+                    
                     for( i = 0 ; i < productListLength; i++){
-                        
+                        console.log(i);
                         db.query(`SELECT id FROM produto WHERE nome = ?`,[req.body.productList[i][0]], (error, results) => {
                             if(error){
                                 console.log(error);
                             }
                             else{
                                 console.log('Produto buscado!');
-                                const newAux = JSON.stringify(results[0]);
+                                newAux = JSON.stringify(results[0]);
                                 idProduct = JSON.parse(newAux);  
-                                
-                                db.query(`INSERT INTO item (id_produto, id_pedido, quantidade, valor) VALUES ('${idProduct.id}','${idRequest.id}','${req.body.productList[i][1]}','${req.body.productList[i][2]}')`, (error, results) => {
+                                console.log(i);
+
+                                db.query(`INSERT INTO item (id_produto, id_pedido, quantidade, valor) VALUES ('${idProduct.id}','${idRequest.id}','${req.body.productList[i-1][1]}','${req.body.productList[i-1][2]}')`, (error, results) => {
                                     if(error){
                                         console.log(error);
                                     }
@@ -196,27 +198,20 @@ app.post('/addSupplier',(req, res) =>{
         if(error){
             console.log(error);
         }
-        if(!results.length == 0){
-            console.log('Fornecedor já cadastrado!')
-            return res.json({
-                feedback: 'Este Fornecedor já está cadastrado no Banco de Dados...'
-            });
-        }
+       
         else {
             db.query(`INSERT INTO fornecedor (nome, descricao, cidade, endereco, bairro, numero) VALUES ('${req.body.supplierName}','${req.body.supplierDescription}','${req.body.supplierCity}','${req.body.supplierAddress}','${req.body.supplierNeighborhood}','${req.body.supplierNumber}')`, (error, results) => {
                 if(error){
                 console.log(error);
                 }
                 else{
-                    
-
                     db.query('SELECT id FROM fornecedor WHERE nome = ?',[req.body.supplierName], (error, results) => {
                         if(error){
                             console.log(error);
                         }
                         else{
                             console.log('Fornecedor cadastrado com sucesso!');
-                            const aux = JSON.stringify(results[0]);
+                            var aux = JSON.stringify(results[0]);
                             idSupplier = JSON.parse(aux);
                             
                             emailListLength = req.body.emailList.length;
