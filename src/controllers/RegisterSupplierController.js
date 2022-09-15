@@ -70,6 +70,11 @@ function doPOST(url, body){
 function sendSupplierInfo(){
     //e.preventDefault();
     let supplierName = document.getElementById("supplierName").value;
+    let supplierDescription = document.getElementById("supplierDescription").value;
+    let supplierCity = document.getElementById("supplierCity").value;
+    let supplierAddress = document.getElementById("supplierAddress").value;
+    let supplierNeighborhood = document.getElementById("supplierNeighborhood").value;
+    let supplierNumber = document.getElementById("supplierNumber").value;
     
     telTable = document.getElementById("telTable");
     telList = new Array((telTable.rows.length-1));
@@ -85,12 +90,17 @@ function sendSupplierInfo(){
 
     body = {
         "supplierName": supplierName,
+        "supplierDescription": supplierDescription,
+        "supplierCity": supplierCity,
+        "supplierAddress": supplierAddress,
+        "supplierNeighborhood": supplierNeighborhood,
+        "supplierNumber": supplierNumber,
         "emailList": emailList,
         "telList": telList
     }
     console.log(body);
 
-    //let response = JSON.parse(doPOST("http://127.0.0.1:3000/addSupplierInfo", body));
-    //let feedback = response["feedback"];
-    //console.log(feedback);
+    let response = JSON.parse(doPOST("http://127.0.0.1:3000/addSupplier", body));
+    let feedback = response["feedback"];
+    console.log(feedback);
 }

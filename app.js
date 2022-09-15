@@ -4,6 +4,8 @@ const cors = require('cors');
 const path = require('path');
 const mysql = require('mysql');
 const dotenv = require('dotenv');
+const { response } = require('express');
+const { Console } = require('console');
 
 dotenv.config({ path: './.env'});
 app.use(express.urlencoded({extended: false}));
@@ -61,51 +63,54 @@ app.get("/GenerateRequest", (req, res) => {
 
 });
 
-app.get("/searchProduct",(req,res) => {
-    db.query(`SELECT id FROM produto WHERE nome = ?`,[req.query.productName])
-    if(error){
+
+app.post("/addRequest", (req, res)=>{ 
+    db.query(`INSERT INTO pedido (id_transportadora, datahora, notaFiscal, valorFrete, desconto, valorTotal) VALUES ('${req.body.shippingCompanyId}', CURRENT_TIMESTAMP(),'${req.body.requestInvoice}','${req.body.requestShippingFee}','${req.body.requestDiscount}','${req.body.requestAmount}')`, (error, results) => {
+        if(error){
         console.log(error);
         }
         else{
-            return results
-        }
-});
-
-app.post("/addRequest", (req, res)=>{
-    
-            db.query(`INSERT INTO pedido (id_transportadora, datahora, notaFiscal, valorFrete, desconto, valorTotal) VALUES ('${req.body.shippingCompanyId}', CURRENT_TIMESTAMP(),'${req.body.requestInvoice}','${req.body.requestShippingFee}','${req.body.requestDiscount}','${req.body.requestAmount}')`, (error, results) => {
+            db.query('SELECT id FROM pedido WHERE notaFiscal = ?',[req.body.requestInvoice], (error, results) => {
                 if(error){
-                console.log(error);
+                    console.log(error);
                 }
                 else{
-                    db.query('SELECT id FROM pedido WHERE notaFiscal = ?',[req.body.requestInvoice], (error, results) => {
-                        if(error){
-                            console.log(error);
-                        }
-                        else{
-                            
-                            let requestId = results;
-                            let productList = req.body.productTable;
+                    console.log('Pedido adicionado ao banco de dados');
+                    const aux = JSON.stringify(results[0]);
+                    idRequest = JSON.parse(aux);
+
+                    productListLength = req.body.productList.length;
+
+                    for( i = 0 ; i < productListLength; i++){
+                        
+                        db.query(`SELECT id FROM produto WHERE nome = ?`,[req.body.productList[i][0]], (error, results) => {
+                            if(error){
+                                console.log(error);
+                            }
+                            else{
+                                console.log('Produto buscado!');
+                                const newAux = JSON.stringify(results[0]);
+                                idProduct = JSON.parse(newAux);  
                                 
-                            for( i = 0 ; i <= productList.rows.length;i++){
-                                db.query(`INSERT INTO item (id_produto, id_pedido, quantidade, valor) VALUES ('${req.body.productList.rows[i].cells[0]}','${req.body.requestId}','${req.body.productList.rows[i].cells[2]}','${req.body.productList.rows[i].cells[3]}')`, (error, results) => {
+                                db.query(`INSERT INTO item (id_produto, id_pedido, quantidade, valor) VALUES ('${idProduct.id}','${idRequest.id}','${req.body.productList[i][1]}','${req.body.productList[i][2]}')`, (error, results) => {
                                     if(error){
-                                    console.log(error);
+                                        console.log(error);
                                     }
                                     else{
-                                        console.log('Novo item Salvo com sucesso!');
+                                        console.log('Novo item salvo com sucesso!');
                                         
                                     }
                                 });
                             }
-                            return res.render('GenerateRequest', {
-                                feedback : 'Produto Cadastrado com sucesso!'
-                            });
-                        }
+                        });
+                    }
+                    return res.json({
+                        feedback : 'Produto Cadastrado com sucesso!'
                     });
                 }
             });
-
+        }
+    });
 });
 
 app.get('/VisualizeRequests', (req,res) =>{
@@ -193,7 +198,7 @@ app.post('/addSupplier',(req, res) =>{
         }
         if(!results.length == 0){
             console.log('Fornecedor já cadastrado!')
-            return res.render('RegisterSupplier', {
+            return res.json({
                 feedback: 'Este Fornecedor já está cadastrado no Banco de Dados...'
             });
         }
@@ -202,92 +207,56 @@ app.post('/addSupplier',(req, res) =>{
                 if(error){
                 console.log(error);
                 }
+                else{
+                    
+
+                    db.query('SELECT id FROM fornecedor WHERE nome = ?',[req.body.supplierName], (error, results) => {
+                        if(error){
+                            console.log(error);
+                        }
+                        else{
+                            console.log('Fornecedor cadastrado com sucesso!');
+                            const aux = JSON.stringify(results[0]);
+                            idSupplier = JSON.parse(aux);
+                            
+                            emailListLength = req.body.emailList.length;
+                            telListLength = req.body.telList.length;
+                                
+                            for( i = 0 ; i < emailListLength ;i++){
+                                db.query(`INSERT INTO email (id_fornecedor, email, referencia) VALUES ('${idSupplier.id}','${req.body.emailList[i][0]}','${req.body.emailList[i][1]}')`, (error, results) => {
+                                    if(error){
+                                    console.log(error);
+                                    }
+                                    else{
+                                        console.log('Novo Email Salvo com sucesso!');
+                                        
+                                    }
+                                });
+                            }
+                
+                            for(i = 0; i < telListLength; i++){
+                                db.query(`INSERT INTO telefone (id_fornecedor, ddd, numero, referencia) VALUES ('${idSupplier.id}','${req.body.telList[i][0]}','${req.body.telList[i][1]}','${req.body.telList[i][2]}')`, (error, results) => {
+                                    if(error){
+                                    console.log(error);
+                                    }
+                                    else{
+                                        console.log('Novo Telefone Salvo com sucesso!')
+                                            
+                                    }
+                                });  
+                            }
+                            
+                            return res.json({
+                            feedback: 'Fornecedor cadastrado com sucesso!'                                    
+                            });
+                        }
+                    });
+    
+                }
 
             });  
         }
     });    
-});
-
-app.post('/addProductInfo',(req, res) =>{
-    console.log(req);
-    db.query('SELECT id FROM pedido WHERE notaFiscal = ?',[req.body.requestInvoice], (error, results) => {
-        if(error){
-            console.log(error);
-        }
-        else{
-            let requestId = results;
-            let productListLength = req.body.productList.length;
-
-            for(i = 0; i < productListLength; i++){
-                db.query('SELECT id FROM produto WHERE nome = ?',[req.body.productList[i][0]], (error, results) => {
-                    if(error){
-                        console.log(error);
-                    }
-                    else{    
-                        let productId = results;
-
-                        db.query(`INSERT INTO item (id_produto, id_pedido, quantidade, valor) VALUES ('${productId}','${requestId}','${req.body.productList[i][1]}','${req.body.productList[i][2]}')`, (error, results) => {
-                            if(error){
-                            console.log(error);
-                            }
-                            else{
-                                console.log('Novo item salvo com sucesso!')
-                                    
-                            }
-                        });
-                    }
-                });
-            }
-            return res.json({
-            feedback: 'Pedido cadastrado com sucesso!'                                    
-            });
-        }
-    }); 
-});
-
-app.post('/addSupplierInfo',(req, res) =>{
-console.log(req);
-console.log("LISTA DE TELEFONES:" + req.body.telList);
-    db.query('SELECT id FROM fornecedor WHERE nome = ?',[req.body.supplierName], (error, results) => {
-        if(error){
-            console.log(error);
-        }
-        else{
-            
-            let idSupplier = results;
-            let emailListLength = req.body.emailList.length;
-            let telListLength = req.body.telList.length;
-                
-            for( i = 0 ; i < emailListLength ;i++){
-                db.query(`INSERT INTO email (id_fornecedor, email, referencia) VALUES ('${idSupplier}','${req.body.emailList[i][0]}','${req.body.emailList[i][1]}')`, (error, results) => {
-                    if(error){
-                    console.log(error);
-                    }
-                    else{
-                        console.log('Novo Email Salvo com sucesso!');
-                        
-                    }
-                });
-            }
-
-            for(i = 0; i < telListLength; i++){
-                db.query(`INSERT INTO telefone (id_fornecedor, ddd, numero, referencia) VALUES ('${idSupplier}','${req.body.telList[i][0]}','${req.body.telList[i][1]}','${req.body.telList[i][2]}')`, (error, results) => {
-                    if(error){
-                    console.log(error);
-                    }
-                    else{
-                        console.log('Novo Telefone Salvo com sucesso!')
-                            
-                    }
-                });  
-            }
-            
-            return res.json({
-            feedback: 'Fornecedor cadastrado com sucesso!'                                    
-            });
-        }
-    }); 
-
 });
 
 app.get('/RegisterShippingCompany',(req, res) =>{

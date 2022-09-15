@@ -16,7 +16,7 @@
                 <h1>Gerar Pedido</h1>
         
     </div>
-    <form action = "/addRequest" method="POST">
+    <form>
         <div id="productBox">
             <input type = "text"  name="productName" placeholder="Digite o nome do produto">
             <input type = "float" name="productQuantity" placeholder="Digite a quantidade deste item">
@@ -37,23 +37,23 @@
         <br>
         <div id="requestInfoBox">
              
-            <input type = "float" name="ShippingFee" placeholder="Digite o valor do frete">
+            <input type = "float" id = "ShippingFee"  name="ShippingFee" placeholder="Digite o valor do frete">
             <br>
             <input type = "text" id="invoice" name="invoice" placeholder="Digite a nota fiscal">
             <br>
-            <input type = "float" name="Discount" placeholder="Digite o valor do desconto">
+            <input type = "float" id = "Discount"  name="Discount" placeholder="Digite o valor do desconto">
             <br>
             <form>
-                <select name = "ShippingCompanyId">
+                <select id="shippingCompanyId" name = "shippingCompanyId">
                     {{#each shippingCompanyList}}
                      <option value={{id}}> {{nome}}</option>
                      {{/each}}
                 </select>
             </form>
-            <p>Valor Total do pedido:</p>
-            <div name="requestAmount "id="requestAmount" value="0">Valor total: 0</div>
+            <p>Valor Total em produtos:</p>
+            <div name="requestAmount "id="requestAmount" value="0">0</div>
 
-            <button type="submit" onclick="sendProductInfo()" name = "confirmRegistry">Finalizar Cadastro</button>               
+            <button type="button" onclick="sendProductInfo()" name = "confirmRegistry">Finalizar Cadastro</button>               
 
         </div>
     </form>

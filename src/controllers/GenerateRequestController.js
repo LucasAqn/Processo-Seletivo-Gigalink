@@ -42,22 +42,27 @@ function sendProductInfo(){
     //e.preventDefault();
     
     table = document.getElementById("productTable");
+    let ShippingFee = document.getElementById("ShippingFee").value;
     let invoice = document.getElementById("invoice").value;
+    let Discount = document.getElementById("Discount").value;
+    let requestAmount = document.getElementById("requestAmount").getAttribute("value");
+    let shippingCompanyId = document.getElementById("shippingCompanyId").value;
 
     productList = new Array((table.rows.length-1));
     createProductList(productList,table);
     
-    console.log(productList);
-
     body = {
+        "shippingCompanyId": shippingCompanyId,
         "requestInvoice": invoice,
+        "requestShippingFee": ShippingFee,
+        "requestDiscount": Discount,
+        "requestAmount": requestAmount,
         "productList": productList,
     }
-    console.log(body);
 
-    //let response = JSON.parse(doPOST("http://127.0.0.1:3000/addProductInfo", body));
-    //let feedback = response["feedback"];
-    //console.log(feedback);
+    let response = JSON.parse(doPOST("http://127.0.0.1:3000/addRequest", body));
+    let feedback = response["feedback"];
+    console.log(feedback);
 }
 
 function doGET(url){
