@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register Product Screen</title>
-    <link rel="stylesheet" type="text/css" href="/style.css">   
+    <link rel="stylesheet" type="text/css" href="../public/style.css">  
    
 </head>
 
@@ -15,18 +15,22 @@
     <h1>Registrar Novo Produto</h1>
     <br>
     <form action = "/addProduct" method="POST">
-        <div>
+        <div class="RegisterProductForm">
             <input type = "text" name="ProductName" placeholder="Digite o nome do Produto" required>
             <br>
             <input type = "text" name="ProductDescription" placeholder="Digite a descrição do Produto" required>
             <br>
+            <br>
             <form>
+                <span>Fornecedor:</span>
                 <select name = "SupplierID">
                     {{#each suppliersList}}
                      <option value={{id}}> {{nome}}</option>
                      {{/each}}
                 </select>
             </form>
+            <br>
+            <br>
             <button type="submit" name = "confirmRegistry">Finalizar Cadastro</button>               
 
         </div>

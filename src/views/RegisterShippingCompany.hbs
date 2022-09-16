@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register Shipping Company Screen</title>
-    <link rel="stylesheet" type="text/css" href="/style.css">   
+    <link rel="stylesheet" type="text/css" href="../public/style.css">   
    
 </head>
 
@@ -13,18 +13,20 @@
     <br>
     <h1>Registrar Nova Transportadora</h1>
     <br>
-    <form action = "/addShippingCompany" method="POST">
-        <div>
-            <input type = "text" name="ShippingCompanyName" placeholder="Digite o nome da Transportadora" required>
-            <br>
-            <button type="submit" name = "confirmRegistry">Finalizar Cadastro</button>               
+    <div class="RegisterShippingCompanyForm">
+        <form action = "/addShippingCompany" method="POST">
+            <div>
+                <br>
+                <input type = "text" name="ShippingCompanyName" placeholder="Digite o nome da Transportadora" required>
+                <br>
+                <br>
+                <button class="formButton" type="submit" name = "confirmRegistry">Finalizar Cadastro</button>               
 
-        </div>
-    </form>
-
-    <p>{{feedback}}<br></p>
-    <a href="/">Voltar</a>
-   
+            </div>
+        </form>
+        <p>{{feedback}}<br></p>
+        <a href="/">Voltar</a>
+    </div> 
     <br>
     {{>footer}}
 </body>

@@ -1,11 +1,11 @@
 function appendEmail(email, reference){
     var table = document.getElementById("emailTable");
-    var newRow = table.insertRow(table.rows.length);
     
     if(!email || !reference){
         alert('Preencha todos os campos para adicionar novo e-mail!');
     }
     else{
+        var newRow = table.insertRow(table.rows.length);
         var newEmail = newRow.insertCell(0);
         var newReference = newRow.insertCell(1);
 
@@ -16,12 +16,12 @@ function appendEmail(email, reference){
 
 function appendTel(ddd, number, reference){
     var table = document.getElementById("telTable");
-    var newRow = table.insertRow(table.rows.length);
-
+    
     if(!ddd || !number || !reference){
         alert('Preencha todos os campos para adicionar novo telefone!');
     }
     else{
+        var newRow = table.insertRow(table.rows.length);
         var newDdd = newRow.insertCell(0);
         var newNumber = newRow.insertCell(1);
         var newReference = newRow.insertCell(2);
@@ -40,7 +40,6 @@ function createEmailList(emailList,table){
         emailList[i][1] = (table.rows[i+1].cells[1].innerText);
         
     }
-    console.log(emailList);
 }
 
 function createTelList(telList,table){
@@ -52,55 +51,58 @@ function createTelList(telList,table){
         telList[i][2] = (table.rows[i+1].cells[2].innerText);
         
     }
-    console.log(telList)
 }
 
 function doPOST(url, body){
-    console.log("BODY DEPOIS=", body)
+    
     let request = new XMLHttpRequest();
     request.open("POST",url,true);
     request.setRequestHeader("Content-type", "application/json");
     request.send(JSON.stringify(body));
-    request.onload= function (){
-        return this.request.responseText;
-    }
-
+   
+    request.onload = function(){
+        response = JSON.parse(this.responseText);
+        let feedback = response["feedback"];
+        alert(feedback);
+    };
 }
 
 function sendSupplierInfo(){
     //e.preventDefault();
-    let supplierName = document.getElementById("supplierName").value;
-    let supplierDescription = document.getElementById("supplierDescription").value;
-    let supplierCity = document.getElementById("supplierCity").value;
-    let supplierAddress = document.getElementById("supplierAddress").value;
-    let supplierNeighborhood = document.getElementById("supplierNeighborhood").value;
-    let supplierNumber = document.getElementById("supplierNumber").value;
-    
     telTable = document.getElementById("telTable");
-    telList = new Array((telTable.rows.length-1));
-    createTelList(telList,telTable);
-    
-    let emailTable = document.getElementById("emailTable");
-    emailList = new Array((emailTable.rows.length-1));
-    createEmailList(emailList,emailTable);
-    
-    console.log(telList);
-    console.log(emailList);
-    
-
-    body = {
-        "supplierName": supplierName,
-        "supplierDescription": supplierDescription,
-        "supplierCity": supplierCity,
-        "supplierAddress": supplierAddress,
-        "supplierNeighborhood": supplierNeighborhood,
-        "supplierNumber": supplierNumber,
-        "emailList": emailList,
-        "telList": telList
+    let supplierName = document.getElementById("supplierName").value;
+    if(supplierName == ''){
+        alert("Informe o nome do Fornecedor...");
     }
-    console.log(body);
+    else
+        if(telTable.rows.length <= 1){
+            alert("Informe ao menos um contato de telefone para o Fornecedor...");
+        }
+        else{
+            let supplierDescription = document.getElementById("supplierDescription").value;
+            let supplierCity = document.getElementById("supplierCity").value;
+            let supplierAddress = document.getElementById("supplierAddress").value;
+            let supplierNeighborhood = document.getElementById("supplierNeighborhood").value;
+            let supplierNumber = document.getElementById("supplierNumber").value;
 
-    let response = JSON.parse(doPOST("http://127.0.0.1:3000/addSupplier", body));
-    let feedback = response["feedback"];
-    alert(feedback);
+            
+            telList = new Array((telTable.rows.length-1));
+            createTelList(telList,telTable);
+
+            let emailTable = document.getElementById("emailTable");
+            emailList = new Array((emailTable.rows.length-1));
+            createEmailList(emailList,emailTable);
+
+            body = {
+                "supplierName": supplierName,
+                "supplierDescription": supplierDescription,
+                "supplierCity": supplierCity,
+                "supplierAddress": supplierAddress,
+                "supplierNeighborhood": supplierNeighborhood,
+                "supplierNumber": supplierNumber,
+                "emailList": emailList,
+                "telList": telList
+            }
+            doPOST("http://127.0.0.1:3000/addSupplier", body);
+        }
 }

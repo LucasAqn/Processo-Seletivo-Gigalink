@@ -1,11 +1,11 @@
 function appendProduct(name,quantity,price){
     var table = document.getElementById("productTable");
-    var newRow = table.insertRow(table.rows.length);
-    
+     
     if(!name || !quantity || !price){
         alert('Preencha todos os campos para adicionar novo produto!');
     }
     else{
+        var newRow = table.insertRow(table.rows.length);
         var newName = newRow.insertCell(0);
         var newQuantity = newRow.insertCell(1);
         var newPrice = newRow.insertCell(2);
@@ -13,8 +13,9 @@ function appendProduct(name,quantity,price){
         newName.innerHTML = name;
         newQuantity.innerHTML = quantity;
         newPrice.innerHTML = price;
+        updateAmount(quantity,price);
     }
-    updateAmount(quantity,price);  
+      
 }
 function createProductList(productList,table){
     for(i = 0; i < (table.rows.length-1); i++){
@@ -28,49 +29,65 @@ function createProductList(productList,table){
 }
 
 function doPOST(url, body){
-    console.log("BODY DEPOIS=", body)
     let request = new XMLHttpRequest();
     request.open("POST",url,true);
     request.setRequestHeader("Content-type", "application/json");
     request.send(JSON.stringify(body));
-    request.onload= function (){
-        return this.request.responseText;
-    }
+
+    request.onload = function(){
+        response = JSON.parse(this.responseText);
+        let feedback = response["feedback"];
+        alert(feedback);
+    };
+
 }
 
 function sendRequestInfo(){
-    //e.preventDefault();
-    
+    //e.preventDefault();   
     table = document.getElementById("productTable");
-    let ShippingFee = document.getElementById("ShippingFee").value;
     let invoice = document.getElementById("invoice").value;
-    let Discount = document.getElementById("Discount").value;
-    let shippingCompanyId = document.getElementById("shippingCompanyId").value;
-    let productAmount = document.getElementById("requestAmount").getAttribute("value");
-
-    let  requestAmount =  parseFloat(productAmount) + (parseFloat(ShippingFee) - parseFloat(Discount));
-    console.log(requestAmount)
-
-    productList = new Array((table.rows.length-1));
-    createProductList(productList,table);
     
-    body = {
-        "shippingCompanyId": shippingCompanyId,
-        "requestInvoice": invoice,
-        "requestShippingFee": ShippingFee,
-        "requestDiscount": Discount,
-        "requestAmount": requestAmount,
-        "productList": productList,
+    if(invoice==''){
+        alert("Atribua um valor de Nota Fiscal para gerar um novo Pedido...");
     }
+    else
+        if(table.rows.length<=1){
+            alert("Adicione ao menos um produto para gerar um novo Pedido...");
+        }
+        else{
+            let ShippingFee = document.getElementById("ShippingFee").value;
+            let invoice = document.getElementById("invoice").value;
+            let Discount = document.getElementById("Discount").value;
+            let shippingCompanyId = document.getElementById("shippingCompanyId").value;
+            let productAmount = document.getElementById("requestAmount").getAttribute("value");
+            let  requestAmount =  parseFloat(productAmount);
 
-    let response = JSON.parse(doPOST("http://127.0.0.1:3000/addRequest", body));
-    let feedback = response["feedback"];
-    alert(feedback);
+            if(!ShippingFee == '') {
+                requestAmount  += parseFloat(ShippingFee) ;
+            }
+            if(!Discount == ''){
+                requestAmount -= parseFloat(Discount);
+            }
+
+            productList = new Array((table.rows.length-1));
+            createProductList(productList,table);
+            
+            body = {
+                "shippingCompanyId": shippingCompanyId,
+                "requestInvoice": invoice,
+                "requestShippingFee": ShippingFee,
+                "requestDiscount": Discount,
+                "requestAmount": requestAmount,
+                "productList": productList,
+            }
+            doPOST("http://127.0.0.1:3000/addRequest", body);
+            
+        }
 }
 
 function updateAmount(productQuantity,productPrice){
     let currentAmount = document.getElementById("requestAmount").getAttribute("value");
     let newAmount = parseFloat(currentAmount) + (parseFloat(productQuantity) * parseFloat(productPrice));
     document.getElementById("requestAmount").setAttribute("value", newAmount);
-    document.getElementById("requestAmount").innerHTML = newAmount;
+    document.getElementById("requestAmount").innerHTML = "Valor Total em produtos: " + newAmount;
 }

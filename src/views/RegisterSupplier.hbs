@@ -15,14 +15,15 @@
     <h1>Registrar Novo Fornecedor</h1>
     <br>
     <form>
-        <div>           
+        <div class="RegisterSupplierForm">           
             <input type = "text" id="supplierName" name="supplierName" placeholder="Nome do Fornecedor" required>
             <input type = "text" id="supplierDescription" name="supplierDescription" placeholder="Descrição" required>
             <br>
-             <input type = "text" id="supplierCity" name="supplierCity" placeholder="Cidade" required>  
-             <input type = "text" id="supplierAddress" name="supplierAddress" placeholder="Endereço" required>
-             <input type = "text" id="supplierNeighborhood" name="supplierNeighborhood" placeholder="Bairro" required>
-             <input type = "text" id="supplierNumber" name="supplierNumber" placeholder="Número" required>
+            <input type = "text" id="supplierCity" name="supplierCity" placeholder="Cidade" required>  
+            <input type = "text" id="supplierAddress" name="supplierAddress" placeholder="Endereço" required>
+            <br>
+            <input type = "text" id="supplierNeighborhood" name="supplierNeighborhood" placeholder="Bairro" required>
+            <input type = "text" id="supplierNumber" name="supplierNumber" placeholder="Número" required>
             <br><br>
             
             <div id = "emailBox">
@@ -34,7 +35,7 @@
             </div>
             <br>
 
-            <table name="emailTable" id="emailTable">
+            <table class="RegisterSupplierForm" name="emailTable" id="emailTable">
                 <thead>
                     <tr>
                         <td>E-mail</td>
@@ -55,7 +56,7 @@
                 </form>
             </div>
             <br> 
-            <table name="telTable" id="telTable">
+            <table class="RegisterSupplierForm" name="telTable" id="telTable">
                 <thead>
                     <tr>
                        <td>DDD</td>
@@ -67,7 +68,7 @@
             </table>
 
             <br>
-            <button type="button" onclick="sendSupplierInfo()">Finalizar Cadastro</button>
+            <button class="formButton" type="button" onclick="sendSupplierInfo()">Finalizar Cadastro</button>
             <br><br>
             <a href="/">Voltar</a>               
 

@@ -33,8 +33,7 @@
             
         </table>
         <br>
-        <p>Valor Total em produtos:</p>
-        <div name="requestAmount "id="requestAmount" value="0">0</div>
+        <div name="requestAmount "id="requestAmount" value="0"></div>
         <br>
         <div id="requestInfoBox">
              
@@ -44,6 +43,8 @@
             <br>
             <input type = "float" id = "Discount"  name="Discount" placeholder="Digite o valor do desconto">
             <br>
+            <br>
+            <span>Transportadora:</span>
             <form>
                 <select id="shippingCompanyId" name = "shippingCompanyId">
                     {{#each shippingCompanyList}}
@@ -52,7 +53,8 @@
                 </select>
             </form>
             <br>
-            <button type="button" onclick="sendRequestInfo()" name = "confirmRegistry">Finalizar Cadastro</button>
+            <br>
+            <button class="formButton" type="button" onclick="sendRequestInfo()" name = "confirmRegistry">Finalizar Cadastro</button>
         </div>
     </form>
 

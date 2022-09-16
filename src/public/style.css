@@ -16,25 +16,56 @@ html,body{
 body{
   display: flex;
   flex-direction: column;
+  color: white;
+  background-color: #101010;
 }
 
 .header{
-  padding: 30px;
   color: white;
-  text-align: center;
   background-color: #414eff;
 }
 
 .footer{
   
   flex-shrink: 0;
-  padding: 20px;
+  padding: 0;
   text-align: center;
   color: white;
   background-color: #414eff;
 }
+
 .homePageMenu{
   flex: 1 0 auto;
 
 }
 
+.RegisterShippingCompanyForm{
+  text-align: center;
+  border: 1px solid black;
+  
+  
+}
+
+.RegisterSupplierForm{
+  text-align: center;
+  border: 1px solid black;
+}
+
+.RegisterProductForm{
+  text-align: center;
+  border: 1px solid black;
+}
+
+h1, a{
+  color: white;
+  text-align: center;
+}
+button{
+  cursor: pointer;
+}
+.formButton{
+  cursor: pointer;
+}
+#telTable{
+  text-align: center;
+}
