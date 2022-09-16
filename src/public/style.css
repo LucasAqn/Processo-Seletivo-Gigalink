@@ -2,7 +2,10 @@
 
 table, th, td {
     border: 1px solid black;
-  }
+    margin:auto;
+    border-radius: 5px;
+    border-collapse: collapse;
+}
 
 
 html,body{
@@ -52,6 +55,11 @@ body{
 }
 
 .RegisterProductForm{
+  text-align: center;
+  border: 1px solid black;
+}
+
+.GenerateRequestForm{
   text-align: center;
   border: 1px solid black;
 }

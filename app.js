@@ -69,7 +69,6 @@ app.get("/GenerateRequest", (req, res) => {
 app.post("/addRequest", (req, res)=>{
     db.query('SELECT id FROM pedido WHERE notaFiscal = ?',[req.body.requestInvoice], (error, results) => {
         if(error){
-            res.status(500).send();
             console.log(error);
         }
         if(!results.length==0){
@@ -83,16 +82,14 @@ app.post("/addRequest", (req, res)=>{
         else{
             productListLength = req.body.productList.length;
             
-
             for( i = 0 ; i < productListLength; i++){
                 db.query(`SELECT id FROM produto WHERE nome = ?`,[req.body.productList[i][0]], (error, results) => {
                     if(error){
-                        res.status(500).send();
+                        console.log(error);
                         
                     }  
-                    if(results.length==0){
+                    if(results.length == 0){
                         console.log("O produto " + req.body.productList[i-1][0] + " não está cadastrado...");
-                        
                         res.json({
                             feedback: "O produto " + req.body.productList[i-1][0] + " não está cadastrado..."                                
                         });
@@ -101,54 +98,52 @@ app.post("/addRequest", (req, res)=>{
                     }
                 });
             }
-            
-                db.query(`INSERT INTO pedido (id_transportadora, datahora, notaFiscal, valorFrete, desconto, valorTotal) VALUES ('${req.body.shippingCompanyId}', CURRENT_TIMESTAMP(),'${req.body.requestInvoice}','${req.body.requestShippingFee}','${req.body.requestDiscount}','${req.body.requestAmount}')`, (error, results) => {
-                    if(error){
-                    console.log(error);
-                    }
-                    else{
-                        db.query('SELECT id FROM pedido WHERE notaFiscal = ?',[req.body.requestInvoice], (error, results) => {
-                            if(error){
-                                console.log(error);
-                            }
-                            else{
-                                console.log('Pedido adicionado ao banco de dados');
-                                const aux = JSON.stringify(results[0]);
-                                idRequest = JSON.parse(aux);
+            db.query(`INSERT INTO pedido (id_transportadora, datahora, notaFiscal, valorFrete, desconto, valorTotal) VALUES ('${req.body.shippingCompanyId}', CURRENT_TIMESTAMP(),'${req.body.requestInvoice}','${req.body.requestShippingFee}','${req.body.requestDiscount}','${req.body.requestAmount}')`, (error, results) => {
+                if(error){
+                console.log(error);
+                }
+                else{
+                    db.query('SELECT id FROM pedido WHERE notaFiscal = ?',[req.body.requestInvoice], (error, results) => {
+                        if(error){
+                            console.log(error);
+                        }
+                        else{
+                            console.log('Pedido adicionado ao banco de dados');
+                            const aux = JSON.stringify(results[0]);
+                            idRequest = JSON.parse(aux);
 
-                                productListLength = req.body.productList.length;
+                            productListLength = req.body.productList.length;
 
-                                for( i = 0 ; i < productListLength; i++){
-                                    db.query(`SELECT id FROM produto WHERE nome = ?`,[req.body.productList[i][0]], (error, results) => {
-                                        if(error){
-                                            console.log(error);
-                                        }
+                            for( i = 0 ; i < productListLength; i++){
+                                db.query(`SELECT id FROM produto WHERE nome = ?`,[req.body.productList[i][0]], (error, results) => {
+                                    if(error){
+                                        console.log(error);
+                                    }
+                                    
+                                    else{ 
+                                        newAux = JSON.stringify(results[0]);
+                                        idProduct = JSON.parse(newAux);  
                                         
-                                        else{ 
-                                            newAux = JSON.stringify(results[0]);
-                                            idProduct = JSON.parse(newAux);  
-                                            
-                                            db.query(`INSERT INTO item (id_produto, id_pedido, quantidade, valor) VALUES ('${idProduct.id}','${idRequest.id}','${req.body.productList[i-1][1]}','${req.body.productList[i-1][2]}')`, (error, results) => {
-                                                if(error){
-                                                    console.log(error);
-                                                }
-                                                else{
-                                                    console.log('Novo item salvo com sucesso!');
-                                                    
-                                                }
-                                            });
-                                        }
-                                    });
-                                }
-                                res.json({
-                                    feedback : 'Pedido cadastrado com sucesso!'
+                                        db.query(`INSERT INTO item (id_produto, id_pedido, quantidade, valor) VALUES ('${idProduct.id}','${idRequest.id}','${req.body.productList[i-1][1]}','${req.body.productList[i-1][2]}')`, (error, results) => {
+                                            if(error){
+                                                console.log(error);
+                                            }
+                                            else{
+                                                console.log('Novo item salvo com sucesso!');
+                                                
+                                            }
+                                        });
+                                    }
                                 });
-                                return;
                             }
-                        });
-                    }
-                });
-            
+                            res.json({
+                                feedback : 'Pedido cadastrado com sucesso!'
+                            });
+                            return;
+                        }
+                    });
+                }
+            });
         }
     });
 });
@@ -239,9 +234,10 @@ app.post('/addSupplier',(req, res) =>{
         if(!results.length == 0){
             console.log('Este fornecedor já está cadastrado...');
             
-            return res.json({
+             res.json({
                 feedback: "Este fornecedor já está cadastrado..."                                
                 });
+            return;
         }
        
         else {
@@ -286,9 +282,10 @@ app.post('/addSupplier',(req, res) =>{
                                 });  
                             }
                             
-                            return res.json({
+                            res.json({
                             feedback: 'Fornecedor cadastrado com sucesso!'                                    
                             });
+                            return;
                         }
                     });
     

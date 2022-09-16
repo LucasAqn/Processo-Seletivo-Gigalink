@@ -15,46 +15,48 @@
     <h1>Gerar Novo Pedido</h1>
     <br>
     <form>
-        <div id="productBox">
-            <input type = "text"  name="productName" placeholder="Nome do produto">
-            <input type = "float" name="productQuantity" placeholder="Quantidade deste produto">
-            <input type = "float" name="productPrice" placeholder="Valor unitário">
-            <button type="button" onclick= "appendProduct(productName.value, productQuantity.value, productPrice.value)" name ="addProduct">+</button>
-        </div>
-        <br>
-        <table id="productTable">
-            <thead>
-                <tr>
-                <td>Nome</td>
-                <td>Quantidade</td>
-                <td>Preço Unitário</td>
-                </tr>
-            </thead>
-            
-        </table>
-        <br>
-        <div name="requestAmount "id="requestAmount" value="0"></div>
-        <br>
-        <div id="requestInfoBox">
-             
-            <input type = "float" id = "ShippingFee"  name="ShippingFee" placeholder="Digite o valor do frete">
+        <div class="GenerateRequestForm">
+            <div id="productBox">
+                <input type = "text"  name="productName" placeholder="Nome do produto">
+                <input type = "float" name="productQuantity" placeholder="Quantidade deste produto">
+                <input type = "float" name="productPrice" placeholder="Valor unitário">
+                <button type="button" onclick= "appendProduct(productName.value, productQuantity.value, productPrice.value)" name ="addProduct">+</button>
+            </div>
             <br>
-            <input type = "text" id="invoice" name="invoice" placeholder="Digite a nota fiscal">
+            <table id="productTable">
+                <thead>
+                    <tr>
+                    <td>Nome</td>
+                    <td>Quantidade</td>
+                    <td>Preço Unitário</td>
+                    </tr>
+                </thead>
+                
+            </table>
             <br>
-            <input type = "float" id = "Discount"  name="Discount" placeholder="Digite o valor do desconto">
+            <div name="requestAmount "id="requestAmount" value="0"></div>
             <br>
-            <br>
-            <span>Transportadora:</span>
-            <form>
-                <select id="shippingCompanyId" name = "shippingCompanyId">
-                    {{#each shippingCompanyList}}
-                     <option value={{id}}> {{nome}}</option>
-                     {{/each}}
-                </select>
-            </form>
-            <br>
-            <br>
-            <button class="formButton" type="button" onclick="sendRequestInfo()" name = "confirmRegistry">Finalizar Cadastro</button>
+            <div id="requestInfoBox">
+                
+                <input type = "float" id = "ShippingFee"  name="ShippingFee" placeholder="Digite o valor do frete">
+                <br>
+                <input type = "text" id="invoice" name="invoice" placeholder="Digite a nota fiscal">
+                <br>
+                <input type = "float" id = "Discount"  name="Discount" placeholder="Digite o valor do desconto">
+                <br>
+                <br>
+                <span>Transportadora:</span>
+                <form>
+                    <select id="shippingCompanyId" name = "shippingCompanyId">
+                        {{#each shippingCompanyList}}
+                        <option value={{id}}> {{nome}}</option>
+                        {{/each}}
+                    </select>
+                </form>
+                <br>
+                <br>
+                <button class="formButton" type="button" onclick="sendRequestInfo()" name = "confirmRegistry">Finalizar Cadastro</button>
+            </div>
         </div>
     </form>
 
