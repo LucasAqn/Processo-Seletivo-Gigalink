@@ -7,10 +7,11 @@ ______________________________________________________________________________
 - Inicie o Back-end por meio do comando "npm start";
 - Acesse a página inicial no endereço localhost com a porta de acordo com o que foi definido no arquivo .env (neste caso, porta 3000);
 - Pronto!  
-
+______________________________________________________________________________
 #Descrição:
   Esta aplicação visa simular um ambiente de vendas semelhante ao que se é visto em um mercado padrão; a ação de gerar uma "nota de compra", isto é, criar um Pedido que deverá conter as informações de produtos, valores, dentre outras, foi considerada como ponto principal, pois, através deste, um dado estabelecimento poderia ter total controle do seu histórico de vendas. 
   A fim de sustentar a funcionalidade principal do sistema, também foram implementadas formas de armazenar os produtos que serão vendidos, seus respectivos fornecedores e as transportadoras responsáveis pelo envio.
+______________________________________________________________________________
 
 #Funcionalidades Implementadas no Sistema:
   - Gerar Novo Pedido
@@ -27,8 +28,11 @@ ______________________________________________________________________________
     
   - Registrar Nova Transportadora
     ->Possibilita cadastrar uma nova transportadora no sistema.
+    
+______________________________________________________________________________
 
 Tecnologias Utilizadas:
+
 ->Front-End
   -HTML
   -CSS
