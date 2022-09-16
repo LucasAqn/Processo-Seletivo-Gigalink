@@ -25,7 +25,7 @@ body{
 
 .header{
   color: white;
-  background-color: #414eff;
+  background-color: #2a5ca7;
 }
 
 .footer{
@@ -34,7 +34,7 @@ body{
   padding: 0;
   text-align: center;
   color: white;
-  background-color: #414eff;
+  background-color: #2a5ca7;
 }
 
 .homePageMenu{
@@ -45,6 +45,7 @@ body{
 .RegisterShippingCompanyForm{
   text-align: center;
   border: 1px solid black;
+  flex: 1 0 auto;
   
   
 }
@@ -52,16 +53,19 @@ body{
 .RegisterSupplierForm{
   text-align: center;
   border: 1px solid black;
+  flex: 1 0 auto;
 }
 
 .RegisterProductForm{
   text-align: center;
   border: 1px solid black;
+  flex: 1 0 auto;
 }
 
 .GenerateRequestForm{
   text-align: center;
   border: 1px solid black;
+  flex: 1 0 auto;
 }
 
 h1, a{
